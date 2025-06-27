@@ -14,10 +14,6 @@
 
 ---
 
-# 🔥 Live Demo
-
-![Screenshot](./public/image/screen.png)
-
 🔗 **View the live site here:** [https://your-deployment-url.vercel.app](https://your-deployment-url.vercel.app)
 
 ---
