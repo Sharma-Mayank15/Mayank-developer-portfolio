@@ -6,19 +6,10 @@
 
 # 🚀 [Built with ❤️ by Mayank Sharma](https://github.com/mayank-sharma-dev/portfolio)
 
----
-
-# Developer Portfolio
-
-#### Want to create a stunning portfolio without reinventing the wheel? This portfolio template is built to be sleek, customizable, and perfect for showcasing your developer journey — from projects to skills and contact details. It's optimized for both developers and freelancers alike.
-
----
-
 # 🔥 Live Demo
 
 ![Screenshot](./public/image/screen.png)
 
-🔗 **View the live site here:** [https://your-deployment-url.vercel.app](https://your-deployment-url.vercel.app)
 
 ---
 
