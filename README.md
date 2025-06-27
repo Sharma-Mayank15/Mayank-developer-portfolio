@@ -12,8 +12,7 @@
 ![Screenshot](./public/image/screen.png)
 
 
-🔗 **View the live site here:** [https://your-deployment-url.vercel.app]([https://your-deployment-url.vercel.app](https://mayank-developer-portfolio.vercel.app/))
->>>>>>> 2f1fbe4945c42296ecee1e9d0812d35f519bc195
+🔗 **View the live site here:** [https://mayank-developer-portfolio.vercel.app/]
 
 ---
 
