@@ -11,6 +11,14 @@
 
 ![Screenshot](./public/image/screen.png)
 
+=======
+---
+
+# Developer Portfolio
+
+#### Want to create a stunning portfolio without reinventing the wheel? This portfolio template is built to be sleek, customizable, and perfect for showcasing your developer journey — from projects to skills and contact details. It's optimized for both developers and freelancers alike.
+
+---
 
 🔗 **View the live site here:** [https://mayank-developer-portfolio.vercel.app/]
 
