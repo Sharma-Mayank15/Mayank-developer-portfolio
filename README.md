@@ -1,6 +1,3 @@
-<p align="center" width="100%">
-    <img height="100" src="https://your-image-url-here.jpeg">
-</p>
 
 ---
 
