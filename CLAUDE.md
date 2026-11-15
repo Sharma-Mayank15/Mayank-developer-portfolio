@@ -58,6 +58,8 @@ Software Engineer — React JS, **Aug 2025 – Present**
   - `skills.js`: skill groups, marquee, research paper, certifications
 - Page sections are in `app/components/sections/`, in order: hero → about (bento) → projects → experience → skills → contact. `project-visuals.jsx` holds pure-SVG animated illustrations; their keyframes live in `app/css/globals.scss`.
 - Shared primitives are in `app/components/ui.jsx` (`Reveal`, `Spotlight`, `SectionHeading`, `LocalTime`, `CopyEmail`). Also present: a ⌘K / Ctrl+K command palette (`command-palette.jsx`) and a floating nav that highlights the active section (`navbar.jsx`, whose `NAV_LINKS` the palette reuses).
+- **Hero "AI wire":** `utils/ai-news.js` fetches the day's top AI/tech stories from the public Hacker News Algolia API on the server (keyword filter, cached 30 min; the home page uses `revalidate = 1800`). `ai-wire.jsx` renders them. If the API is down the card simply doesn't render.
+- **Scroll features:** `scroll-story.jsx` (pinned exploded-view scene), `experience-timeline.jsx` (timeline rail), `hero-parallax.jsx`, `scroll-progress.jsx`. All are pure functions of scroll position, animate only transform/opacity, and fall back to static content under `prefers-reduced-motion` or without JS.
 - **Design system:**
   - Colors: near-black `ink-*` surfaces, `fg` text tokens, a single `signal` accent (#ff6b2c, safety orange), and `ok` green for live/success states.
   - Fonts: Geist (sans), Geist Mono (labels/eyebrows), Instrument Serif italic (emphasis words).

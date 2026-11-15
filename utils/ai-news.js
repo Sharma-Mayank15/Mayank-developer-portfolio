@@ -10,7 +10,7 @@ const TOPIC =
   /\b(AI|A\.I\.|AGI|LLMs?|GPT[-\w.]*|OpenAI|ChatGPT|Anthropic|Claude|Gemini|DeepMind|Nvidia|Ollama|Llama|Mistral|Hugging ?Face|xAI|Grok|DeepSeek|Qwen|Copilot|Cursor|MCP|RAG|agents?|agentic|transformers?|diffusion|neural|machine learning|deep learning|reinforcement learning|inference|fine-?tun\w*|embeddings?|GPUs?|TSMC|open[- ]source model|model weights|benchmark|computer vision|YOLO|robotics?|self-driving|Waymo|outage)\b/i;
 
 const TAGS = [
-  [/\b(outage|down|incident|degraded)\b/i, "outage"],
+  [/\b(outage|is down|goes down|incident|degraded|elevated errors?)\b/i, "outage"],
   [/\b(launch\w*|releas\w*|introduc\w*|announc\w*|unveil\w*|now available|open[- ]sourc\w*)\b/i, "launch"],
   [/\b(paper|research|study|benchmark|arxiv)\b/i, "research"],
   [/\b(CEO|acqui\w*|raises?|funding|lawsuit|resign\w*|layoffs?|billion|antitrust)\b/i, "industry"],
