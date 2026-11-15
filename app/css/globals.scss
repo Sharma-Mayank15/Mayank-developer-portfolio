@@ -138,6 +138,27 @@ body {
   mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
 }
 
+/* ---------- Support card: the cup fills while the card is hovered or focused ---------- */
+.cup-fill {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transform: scaleY(0.22);
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cup-card:hover .cup-fill,
+.cup-card:focus-within .cup-fill {
+  transform: scaleY(0.92);
+}
+.cup-steam {
+  opacity: 0;
+  animation: cup-steam 2.6s ease-in-out infinite;
+}
+@keyframes cup-steam {
+  0% { opacity: 0; transform: translateY(6px); }
+  40% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
 /* ---------- Project visuals ---------- */
 .cv-drift { animation: cv-drift 5s ease-in-out infinite alternate; }
 .cv-pulse { transform-box: fill-box; transform-origin: center; animation: cv-pulse 1.6s ease-out infinite; }

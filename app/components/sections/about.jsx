@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { FiArrowUpRight, FiBookOpen, FiMapPin } from "react-icons/fi";
 import { experiences } from "@/utils/data/experience";
 import { personalData, stats } from "@/utils/data/personal-data";
 import { marquee, research } from "@/utils/data/skills";
+import DotPortrait from "../dot-portrait";
 import TechIcon from "../tech-icon";
 import { CountUp, LocalTime, Reveal, SectionHeading, Spotlight, Tilt } from "../ui";
 
@@ -31,26 +31,14 @@ export default function About() {
         {/* Photo + location */}
         <Reveal delay={80} className="md:col-span-2">
           <Tilt className="h-full">
-            <div className="card group h-full min-h-[22rem]">
-              <Image
-                src={personalData.profile}
-                alt="Portrait of Mayank Sharma"
-                fill
-                sizes="(min-width: 768px) 24rem, 100vw"
-                className="object-cover grayscale transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/20 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
-                <div>
-                  <div className="flex items-center gap-1.5 text-sm text-fg">
-                    <FiMapPin className="text-signal" /> {personalData.location}
-                  </div>
-                  <div className="mt-1 font-mono text-xs text-fg-muted">
-                    IST · <LocalTime />
-                  </div>
-                </div>
+            <DotPortrait src={personalData.profile} alt="Portrait of Mayank Sharma">
+              <div className="flex items-center gap-1.5 text-sm text-fg">
+                <FiMapPin className="text-signal" /> {personalData.location}
               </div>
-            </div>
+              <div className="mt-1 font-mono text-xs text-fg-muted">
+                IST · <LocalTime />
+              </div>
+            </DotPortrait>
           </Tilt>
         </Reveal>
 

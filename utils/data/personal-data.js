@@ -20,6 +20,11 @@ export const personalData = {
   certificationsUrl: "https://www.linkedin.com/in/mayank-sharma15/details/certifications/",
   // Served from /public — replace that PDF to update the résumé everywhere on the site.
   resume: "/Mayank_Sharma_Resume.pdf",
+  // Support links. Leave both empty to hide the "Buy me a coffee" card in the Contact section.
+  support: {
+    buyMeACoffee: "", // your buymeacoffee.com handle, e.g. "mayanksharma"
+    githubSponsors: "", // your GitHub username, once GitHub Sponsors is enabled on the account
+  },
   siteUrl: "https://mayank-developer-portfolio.vercel.app",
 };
 

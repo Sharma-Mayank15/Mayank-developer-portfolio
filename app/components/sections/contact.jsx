@@ -3,6 +3,7 @@ import { SiLeetcode } from "react-icons/si";
 import { personalData } from "@/utils/data/personal-data";
 import { CopyEmail, LocalTime, Reveal } from "../ui";
 import ContactForm from "./contact-form";
+import SupportCard from "./support-card";
 
 const socials = [
   { label: "GitHub", href: personalData.github, icon: FiGithub, handle: "Sharma-Mayank15" },
@@ -65,6 +66,8 @@ export default function Contact() {
             <ContactForm />
           </Reveal>
         </div>
+
+        <SupportCard />
       </div>
     </section>
   );
