@@ -1,0 +1,161 @@
+// The Spartan bot that patrols the bottom edge of the page (see spartan-bot.jsx).
+
+.track {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: env(safe-area-inset-bottom, 0px);
+  height: 0;
+  z-index: 45;
+  pointer-events: none; // only the bot itself is clickable
+}
+
+.bot {
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  pointer-events: auto;
+  cursor: pointer;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+// Face the direction of travel.
+.flip {
+  transition: transform 0.18s ease-out;
+}
+.bot[data-dir="-1"] .flip {
+  transform: scaleX(-1);
+}
+
+.figure {
+  display: block;
+  overflow: visible;
+  transform-origin: 30% 100%;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+}
+
+.shadow {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -2px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  filter: blur(2px);
+  z-index: -1;
+}
+
+.legA,
+.legB,
+.cape,
+.eye {
+  transform-box: fill-box;
+}
+.legA,
+.legB {
+  transform-origin: 50% 8%;
+}
+.cape {
+  transform-origin: 100% 0%;
+}
+.eyeX,
+.stars {
+  opacity: 0;
+}
+.stars {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ---------- run ---------- */
+.bot[data-mode="run"] {
+  .body {
+    animation: bob 0.3s ease-in-out infinite alternate;
+  }
+  .legA {
+    animation: stride 0.3s ease-in-out infinite alternate;
+  }
+  .legB {
+    animation: stride 0.3s ease-in-out infinite alternate-reverse;
+  }
+  .cape {
+    animation: flutter 0.3s ease-in-out infinite alternate;
+  }
+}
+
+/* ---------- idle: stands, looks around ---------- */
+.bot[data-mode="idle"] {
+  .eye {
+    animation: look 1.2s ease-in-out infinite alternate;
+  }
+  .body {
+    animation: breathe 1.2s ease-in-out infinite alternate;
+  }
+}
+
+/* ---------- fall: topples backwards and sees stars ---------- */
+.bot[data-mode="fall"] {
+  .figure {
+    animation: topple 0.55s cubic-bezier(0.5, 0, 0.9, 0.6) forwards;
+  }
+  .eye {
+    opacity: 0;
+  }
+  .eyeX {
+    opacity: 1;
+  }
+  .stars {
+    animation: stars 1s 0.45s linear infinite;
+  }
+  .legA {
+    animation: kick 0.5s 0.55s ease-in-out infinite alternate;
+  }
+}
+
+/* ---------- get up ---------- */
+.bot[data-mode="up"] .figure {
+  animation: rise 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes bob {
+  from { transform: translateY(0); }
+  to { transform: translateY(-1.6px); }
+}
+@keyframes stride {
+  from { transform: rotate(-30deg); }
+  to { transform: rotate(30deg); }
+}
+@keyframes flutter {
+  from { transform: rotate(-6deg) scaleX(1); }
+  to { transform: rotate(10deg) scaleX(1.15); }
+}
+@keyframes look {
+  from { transform: translateX(-3px); }
+  to { transform: translateX(2px); }
+}
+@keyframes breathe {
+  from { transform: translateY(0); }
+  to { transform: translateY(-0.800px); }
+}
+@keyframes topple {
+  0% { transform: rotate(0); }
+  70% { transform: rotate(-96deg); }
+  85% { transform: rotate(-86deg); }
+  100% { transform: rotate(-90deg); }
+}
+@keyframes rise {
+  from { transform: rotate(-90deg); }
+  to { transform: rotate(0); }
+}
+@keyframes stars {
+  0% { opacity: 1; transform: rotate(0) scale(0.9); }
+  50% { opacity: 0.5; transform: rotate(180deg) scale(1.1); }
+  100% { opacity: 1; transform: rotate(360deg) scale(0.9); }
+}
+@keyframes kick {
+  from { transform: rotate(-12deg); }
+  to { transform: rotate(18deg); }
+}

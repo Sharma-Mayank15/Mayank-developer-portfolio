@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460" width="800" height="920">
+  <!-- Spartan warrior, drawn in greys so it halftones well (see app/components/dot-portrait.jsx). -->
+  <defs>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f2f2f2"/>
+      <stop offset="0.45" stop-color="#b4b4b4"/>
+      <stop offset="1" stop-color="#5a5a5a"/>
+    </linearGradient>
+    <linearGradient id="crest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#8a8a8a"/>
+    </linearGradient>
+    <radialGradient id="shield" cx="0.4" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.6" stop-color="#a8a8a8"/>
+      <stop offset="1" stop-color="#555555"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8c8c8c"/>
+      <stop offset="1" stop-color="#3c3c3c"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="460" fill="#000"/>
+
+  <!-- spear -->
+  <path d="M70 460 L88 96" stroke="#9a9a9a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M90 22 C104 52 102 80 89 100 C78 80 78 52 90 22Z" fill="#e6e6e6"/>
+
+  <!-- crest: a fan of plumes over the helmet -->
+  <g fill="url(#crest)">
+    <path d="M200 14 C132 14 96 66 98 138 L132 150 C130 96 156 62 200 62 C244 62 270 96 268 150 L302 138 C304 66 268 14 200 14Z"/>
+  </g>
+  <g stroke="#000" stroke-width="4" stroke-opacity="0.55" fill="none">
+    <path d="M200 16 V62"/>
+    <path d="M168 20 L180 66"/>
+    <path d="M232 20 L220 66"/>
+    <path d="M140 36 L160 76"/>
+    <path d="M260 36 L240 76"/>
+    <path d="M116 66 L144 96"/>
+    <path d="M284 66 L256 96"/>
+    <path d="M102 104 L134 122"/>
+    <path d="M298 104 L266 122"/>
+  </g>
+
+  <!-- cape and shoulders -->
+  <path d="M96 460 L112 372 C132 338 168 326 200 326 C232 326 268 338 288 372 L304 460Z" fill="url(#body)"/>
+  <path d="M150 340 L200 392 L250 340" stroke="#1a1a1a" stroke-width="8" fill="none" stroke-linejoin="round"/>
+
+  <!-- helmet -->
+  <path d="M200 70 C146 70 120 116 120 176 L120 252 C120 286 148 306 178 318 L200 324 L222 318 C252 306 280 286 280 252 L280 176 C280 116 254 70 200 70Z" fill="url(#metal)"/>
+  <!-- brow ridge -->
+  <path d="M126 172 C150 156 180 158 200 172 C220 158 250 156 274 172" stroke="#2a2a2a" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <!-- eye openings and the slit below the nose guard -->
+  <g fill="#000">
+    <path d="M138 184 C152 174 178 176 190 188 L192 214 C174 218 150 214 138 204Z"/>
+    <path d="M262 184 C248 174 222 176 210 188 L208 214 C226 218 250 214 262 204Z"/>
+    <path d="M192 214 L208 214 L208 236 L218 324 L182 324 L192 236Z"/>
+  </g>
+  <!-- nose guard -->
+  <path d="M193 170 L207 170 L206 238 L194 238Z" fill="#dcdcdc"/>
+  <!-- cheek guard edges -->
+  <path d="M182 324 C160 300 150 270 150 236" stroke="#2a2a2a" stroke-width="5" fill="none"/>
+  <path d="M218 324 C240 300 250 270 250 236" stroke="#2a2a2a" stroke-width="5" fill="none"/>
+  <!-- highlight -->
+  <path d="M146 104 C136 124 132 150 132 172" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-opacity="0.9" fill="none"/>
+
+  <!-- round shield with the lambda -->
+  <circle cx="292" cy="380" r="98" fill="#1a1a1a"/>
+  <circle cx="292" cy="380" r="90" fill="url(#shield)"/>
+  <circle cx="292" cy="380" r="72" fill="none" stroke="#3a3a3a" stroke-width="5"/>
+  <path d="M254 424 L292 328 L330 424" stroke="#161616" stroke-width="17" fill="none" stroke-linejoin="miter" stroke-linecap="square"/>
+</svg>

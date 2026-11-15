@@ -7,6 +7,7 @@ import CommandPalette from "./components/command-palette";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";
 import ScrollProgress from "./components/scroll-progress";
+import SpartanBot from "./components/spartan-bot";
 import "./css/globals.scss";
 
 const sans = Geist({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
           <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>
         </noscript>
         <ScrollProgress />
+        <SpartanBot />
         <ToastContainer theme="dark" position="bottom-right" />
         <Navbar />
         <CommandPalette />

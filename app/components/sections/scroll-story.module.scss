@@ -3,10 +3,10 @@
 
 .section {
   position: relative;
-  height: 450vh;
+  height: var(--len, 450vh);
 
   @media (max-width: 767px) {
-    height: 400vh;
+    height: var(--len-m, 400vh);
   }
 }
 
@@ -29,6 +29,30 @@
   @media (max-width: 767px) {
     &::before {
       background: radial-gradient(ellipse 80% 30% at 50% 30%, rgba(255, 255, 255, 0.045), transparent 70%);
+    }
+  }
+}
+
+/* mirrored composition: object left, text right (desktop only) */
+@media (min-width: 768px) {
+  .section[data-mirror] {
+    .stage::before {
+      background: radial-gradient(ellipse 46% 42% at 32% 52%, rgba(255, 255, 255, 0.045), transparent 70%);
+    }
+
+    .layout {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+
+    .textCol {
+      order: 2;
+    }
+
+    .scene {
+      order: 1;
+      justify-content: flex-end;
+      padding-left: 0;
+      padding-right: calc(var(--w) * 0.24);
     }
   }
 }
@@ -86,11 +110,39 @@
   }
 }
 
+/* Per-shape sizes. --w is the flat, facing width; the height follows from --ar. */
+.section[data-shape="portrait"] .scene {
+  --w: min(340px, 24vw, 44svh);
+
+  @media (max-width: 1180px) {
+    --w: min(340px, 22vw, 44svh);
+  }
+
+  @media (max-width: 767px) {
+    --w: min(236px, 60vw, 27svh);
+  }
+}
+
+.section[data-shape="square"] .scene {
+  --w: min(390px, 27vw, 46svh);
+  padding-left: calc(var(--w) * 0.2);
+
+  @media (max-width: 1180px) {
+    --w: min(390px, 25vw, 46svh);
+    padding-left: calc(var(--w) * 0.16);
+  }
+
+  @media (max-width: 767px) {
+    --w: min(250px, 64vw, 29svh);
+    padding-left: 0;
+  }
+}
+
 .stack {
   position: relative;
   flex: none;
   width: var(--w);
-  aspect-ratio: 8 / 5;
+  aspect-ratio: var(--ar, 8 / 5);
   transform-style: preserve-3d;
   will-change: transform;
 }
@@ -190,6 +242,26 @@
 
   @media (max-width: 1100px) {
     font-size: 10px;
+  }
+}
+
+/* label running leftwards from its corner (mirrored stories) */
+.label[data-side="left"] {
+  .labelInner {
+    left: auto;
+    right: 0;
+    flex-direction: row-reverse;
+  }
+
+  .labelDot {
+    margin-left: 0;
+    margin-right: -2.5px;
+  }
+
+  .labelLine {
+    margin-left: 0;
+    margin-right: -6px;
+    background: linear-gradient(to left, #ff6b2c, rgba(255, 107, 44, 0.35));
   }
 }
 

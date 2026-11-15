@@ -31,7 +31,7 @@ export default function About() {
         {/* Photo + location */}
         <Reveal delay={80} className="md:col-span-2">
           <Tilt className="h-full">
-            <DotPortrait src={personalData.profile} alt="Portrait of Mayank Sharma">
+            <DotPortrait src={personalData.profile} dotSrc="/warrior.svg" dotLabel="the warrior" alt="Portrait of Mayank Sharma">
               <div className="flex items-center gap-1.5 text-sm text-fg">
                 <FiMapPin className="text-signal" /> {personalData.location}
               </div>

@@ -1,6 +1,8 @@
 import { FiDatabase } from "react-icons/fi";
 import {
-  SiDocker, SiFastapi, SiKeras, SiOnnx, SiOpenai, SiOpencv, SiPostgresql, SiPython, SiReact, SiSocketdotio, SiTypescript, SiYolo,
+  SiAmazonaws, SiCplusplus, SiDocker, SiExpress, SiFastapi, SiFlask, SiGit, SiGooglechrome, SiGooglecloud, SiHtml5, SiJavascript, SiKeras, SiMongodb,
+  SiMysql, SiNextdotjs, SiNodedotjs, SiOnnx, SiOpenai, SiOpencv, SiOpenjdk, SiPostgresql, SiPython, SiReact, SiRedux, SiSocketdotio, SiTailwindcss, SiTypescript,
+  SiVercel, SiYolo,
 } from "react-icons/si";
 
 // Brand marks missing from the installed icon set, drawn as simple glyphs.
@@ -43,6 +45,23 @@ const ICONS = {
   socketio: [SiSocketdotio, "#ededef"],
   postgres: [SiPostgresql, "#6b9bd8"],
   docker: [SiDocker, "#3b9dee"],
+  javascript: [SiJavascript, "#f7df1e"],
+  redux: [SiRedux, "#b8bcc6"],
+  nextjs: [SiNextdotjs, "#ededef"],
+  tailwind: [SiTailwindcss, "#38bdf8"],
+  html: [SiHtml5, "#ff7a45"],
+  node: [SiNodedotjs, "#6cc24a"],
+  express: [SiExpress, "#ededef"],
+  flask: [SiFlask, "#ededef"],
+  mongodb: [SiMongodb, "#4faa41"],
+  mysql: [SiMysql, "#5d9bc9"],
+  git: [SiGit, "#f05033"],
+  chrome: [SiGooglechrome, "#b8bcc6"],
+  vercel: [SiVercel, "#ededef"],
+  aws: [SiAmazonaws, "#ff9900"],
+  java: [SiOpenjdk, "#ededef"],
+  cpp: [SiCplusplus, "#659ad2"],
+  gcloud: [SiGooglecloud, "#b8bcc6"],
 };
 
 export default function TechIcon({ name, className = "" }) {

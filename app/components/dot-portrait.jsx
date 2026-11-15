@@ -13,11 +13,10 @@ const ANCHOR = { x: 0.5, y: 0.44 };
 const ZOOM = 1.6;
 
 /**
- * Portrait rendered as a halftone dot field that reacts to the pointer; a button swaps in the real photo.
- * The photo is what is in the HTML, so it stays visible if JS or canvas is unavailable. The dots only
- * take over once they have actually been drawn.
+ * A halftone dot field that reacts to the pointer; clicking it (or the button) reveals the real photo.
+ * `dotSrc` is the artwork the dots are sampled from. Without it the dots are sampled from the photo itself.
  */
-export default function DotPortrait({ src, alt, children }) {
+export default function DotPortrait({ src, dotSrc, alt, dotLabel = "dots", children }) {
   const wrapRef = useRef(null);
   const canvasRef = useRef(null);
   const [ready, setReady] = useState(false);
@@ -38,8 +37,9 @@ export default function DotPortrait({ src, alt, children }) {
     let h = 0;
     let alive = true;
 
+    const art = Boolean(dotSrc); // artwork is drawn to fit the card, so it needs no face-framing or vignette
     const img = new window.Image();
-    img.src = src;
+    img.src = dotSrc || src;
 
     const build = () => {
       w = wrap.clientWidth;
@@ -57,12 +57,14 @@ export default function DotPortrait({ src, alt, children }) {
       off.width = cols;
       off.height = rows;
       const octx = off.getContext("2d", { willReadFrequently: true });
-      const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight) * ZOOM;
+      const focus = art ? { x: 0.5, y: 0.5 } : FOCUS;
+      const anchor = art ? { x: 0.5, y: 0.5 } : ANCHOR;
+      const scale = Math.max(w / img.naturalWidth, h / img.naturalHeight) * (art ? 1 : ZOOM);
       const sw = w / scale;
       const sh = h / scale;
       // Crop so the face (FOCUS) lands on ANCHOR, clamped to the photo's edges.
-      const sx = Math.min(img.naturalWidth - sw, Math.max(0, FOCUS.x * img.naturalWidth - ANCHOR.x * sw));
-      const sy = Math.min(img.naturalHeight - sh, Math.max(0, FOCUS.y * img.naturalHeight - ANCHOR.y * sh));
+      const sx = Math.min(img.naturalWidth - sw, Math.max(0, focus.x * img.naturalWidth - anchor.x * sw));
+      const sy = Math.min(img.naturalHeight - sh, Math.max(0, focus.y * img.naturalHeight - anchor.y * sh));
       octx.drawImage(img, sx, sy, sw, sh, 0, 0, cols, rows);
       const px = octx.getImageData(0, 0, cols, rows).data;
 
@@ -80,8 +82,8 @@ export default function DotPortrait({ src, alt, children }) {
           // Vignette: fade the background out so the face is the subject, not the wall behind it.
           const vx = (c / cols - ANCHOR.x) / 0.8;
           const vy = (r / rows - ANCHOR.y) / 0.9;
-          const fall = Math.min(1, Math.max(0, 1.25 - Math.hypot(vx, vy)));
-          const b = Math.pow(lum, 0.7) * (0.18 + 0.82 * fall * fall);
+          const fall = art ? 1 : Math.min(1, Math.max(0, 1.25 - Math.hypot(vx, vy)));
+          const b = Math.pow(lum, art ? 1 : 0.7) * (0.18 + 0.82 * fall * fall);
           if (b < 0.06) continue;
           dots.push({ x: c * CELL + CELL / 2, y: r * CELL + CELL / 2, b, delay: Math.random() * 0.6 + (r / rows) * 0.4 });
         }
@@ -162,19 +164,25 @@ export default function DotPortrait({ src, alt, children }) {
       canvas.removeEventListener("pointerleave", onLeave);
       canvas.removeEventListener("pointercancel", onLeave);
     };
-  }, [src]);
+  }, [src, dotSrc]);
 
-  const showPhoto = revealed || !ready;
+  const showPhoto = revealed;
 
   return (
     <div ref={wrapRef} className="card h-full min-h-[22rem]">
       <Image
         src={src}
         alt={alt}
+        aria-hidden={!revealed}
         fill
         sizes="(min-width: 768px) 24rem, 100vw"
         className={`object-cover object-[50%_30%] transition-opacity duration-700 ${showPhoto ? "opacity-100" : "opacity-0"}`}
       />
+      {/* Without JS there are no dots to click through, so show the photo directly. */}
+      <noscript>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-cover object-[50%_30%]" />
+      </noscript>
       <canvas
         ref={canvasRef}
         aria-hidden
@@ -194,7 +202,7 @@ export default function DotPortrait({ src, alt, children }) {
           className="glass-lens absolute right-3 top-3 flex items-center gap-1.5 rounded-full px-3 py-1.5 font-mono text-[11px] text-fg transition-colors hover:text-white"
         >
           {revealed ? <FiGrid /> : <FiEye />}
-          {revealed ? "Back to dots" : "Reveal photo"}
+          {revealed ? `Back to ${dotLabel}` : "Reveal photo"}
         </button>
       )}
 
