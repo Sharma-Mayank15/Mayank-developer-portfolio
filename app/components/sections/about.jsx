@@ -37,7 +37,6 @@ export default function About() {
               fill
               sizes="(min-width: 768px) 24rem, 100vw"
               className="object-cover grayscale transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
-              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/20 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
@@ -62,7 +61,7 @@ export default function About() {
                 <span className="h-1.5 w-1.5 animate-blink rounded-full bg-ok" /> shipping
               </span>
             </div>
-            <div className="text-fg">{now.role.split(" (")[0]}</div>
+            <div className="text-fg">{now.role}</div>
             <a href={now.url} target="_blank" rel="noreferrer" className="link-underline text-fg-muted">
               {now.company}
             </a>
@@ -113,9 +112,14 @@ export default function About() {
           <div className="card flex h-full flex-col justify-between py-7">
             <div className="eyebrow px-7">AI toolkit &amp; daily drivers</div>
             <div className="mask-fade-x mt-8 overflow-hidden">
-              <div className="flex w-max animate-marquee gap-3">
+              {/* Trailing margin (not flex gap) so the -50% loop lands exactly on the copy — no seam jump. */}
+              <div className="flex w-max animate-marquee">
                 {[...marquee, ...marquee].map((t, i) => (
-                  <span key={i} className="flex items-center gap-2.5 whitespace-nowrap rounded-full border border-white/[0.08] bg-white/[0.02] py-2 pl-3 pr-4 text-sm text-fg-muted">
+                  <span
+                    key={i}
+                    aria-hidden={i >= marquee.length || undefined}
+                    className="mr-3 flex items-center gap-2.5 whitespace-nowrap rounded-full border border-white/[0.08] bg-white/[0.02] py-2 pl-3 pr-4 text-sm text-fg-muted"
+                  >
                     <TechIcon name={t.icon} className="h-4 w-4 shrink-0" />
                     {t.name}
                   </span>

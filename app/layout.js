@@ -48,6 +48,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
       <body className="grain font-sans">
+        {/* Scroll-reveal content starts hidden and is shown by JS — keep it visible when JS is off. */}
+        <noscript>
+          <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         <ToastContainer theme="dark" position="bottom-right" />
         <Navbar />
         <CommandPalette />

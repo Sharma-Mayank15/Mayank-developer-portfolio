@@ -26,9 +26,25 @@ export default function Navbar() {
       setLens(el ? { left: el.offsetLeft, width: el.offsetWidth } : null);
     };
     measure();
+    // Web fonts swap in after first paint and change tab widths — re-measure once they're ready.
+    document.fonts?.ready.then(measure);
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, [active]);
+
+  // Close the mobile menu with Escape, or when the viewport grows past the mobile breakpoint.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onMq = (e) => e.matches && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    mq.addEventListener("change", onMq);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      mq.removeEventListener("change", onMq);
+    };
+  }, [open]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -36,10 +52,11 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
 
     const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      // The hero (#top) is observed too, so scrolling back up clears the highlight.
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id === "top" ? "" : e.target.id)),
       { rootMargin: "-45% 0px -50% 0px" }
     );
-    NAV_LINKS.forEach(({ id }) => {
+    ["top", ...NAV_LINKS.map((l) => l.id)].forEach((id) => {
       const el = document.getElementById(id);
       if (el) io.observe(el);
     });
@@ -67,7 +84,7 @@ export default function Navbar() {
         </Link>
 
         <ul className="relative hidden items-center md:flex">
-          <span
+          <li
             aria-hidden
             className="glass-lens absolute inset-y-0 rounded-full transition-all duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)]"
             style={lens ? { left: lens.left, width: lens.width, opacity: 1 } : { left: 0, width: 0, opacity: 0 }}
@@ -75,8 +92,8 @@ export default function Navbar() {
           {NAV_LINKS.map(({ id, label }) => (
             <li key={id} ref={(el) => (linkRefs.current[id] = el)}>
               <a
-                href={`#${id}`}
-                aria-current={active === id ? "true" : undefined}
+                href={`/#${id}`}
+                aria-current={active === id ? "location" : undefined}
                 className={`relative block rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300 ${
                   active === id ? "text-white" : "text-fg-muted hover:text-fg"
                 }`}
@@ -89,6 +106,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-1">
           <button
+            type="button"
             onClick={openPalette}
             className="glass-lens hidden items-center gap-1.5 rounded-full px-3 py-1.5 font-mono text-[11px] text-fg-muted transition-colors hover:text-fg sm:flex"
             aria-label="Open command menu"
@@ -96,6 +114,7 @@ export default function Navbar() {
             <FiCommand /> K
           </button>
           <button
+            type="button"
             className="grid h-9 w-9 place-items-center rounded-full text-fg md:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
@@ -111,7 +130,7 @@ export default function Navbar() {
           {NAV_LINKS.map(({ id, label }, i) => (
             <a
               key={id}
-              href={`#${id}`}
+              href={`/#${id}`}
               onClick={() => setOpen(false)}
               className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-lg text-fg hover:bg-white/5"
             >

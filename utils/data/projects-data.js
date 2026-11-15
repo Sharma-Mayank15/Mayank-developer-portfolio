@@ -15,7 +15,9 @@ export const featuredProjects = [
     stack: ["Python", "YOLO", "ONNX Runtime", "OpenCV", "FastAPI", "React", "PostgreSQL", "Docker"],
     pipeline: ["RTSP stream", "OpenCV", "YOLO · ONNX", "Safety rules", "Human review", "Dashboard"],
     role: "AI / Full-stack contributor",
-    code: "https://github.com/Ditstek-Innovations/GuardianLens",
+    // Company repo in the Ditstek org — private, so the card shows a "Private repo" badge instead of a dead link.
+    // To link it publicly later, move the URL to `code` and delete `privateRepo`.
+    privateRepo: "https://github.com/Ditstek-Innovations/GuardianLens",
     visual: "cctv",
   },
   {

@@ -11,6 +11,8 @@ export default function CommandPalette() {
   const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
   const inputRef = useRef(null);
+  const listRef = useRef(null);
+  const restoreFocusRef = useRef(null);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -24,15 +26,25 @@ export default function CommandPalette() {
         group: "Navigate",
         label: l.label,
         icon: FiHash,
-        run: () => document.getElementById(l.id)?.scrollIntoView({ behavior: "smooth" }),
+        run: () => {
+          const el = document.getElementById(l.id);
+          // Off the homepage (e.g. the 404 page) the section isn't in the DOM — navigate home to it instead.
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+          else window.location.href = `/#${l.id}`;
+        },
       })),
       {
         group: "Actions",
         label: "Copy email address",
         icon: FiMail,
         run: async () => {
-          await navigator.clipboard.writeText(personalData.email).catch(() => {});
-          toast.success("Email copied to clipboard");
+          try {
+            await navigator.clipboard.writeText(personalData.email);
+            toast.success("Email copied to clipboard");
+          } catch {
+            // Clipboard API is unavailable on insecure origins / denied permissions.
+            toast.info(personalData.email, { autoClose: 6000 });
+          }
         },
       },
       { group: "Actions", label: "Open résumé", icon: FiFileText, external: true, run: () => window.open(personalData.resume, "_blank", "noopener") },
@@ -46,7 +58,8 @@ export default function CommandPalette() {
 
   useEffect(() => {
     const onKey = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      // e.key can be undefined on synthetic keydowns (e.g. Chrome autofill), so guard it.
+      if ((e.metaKey || e.ctrlKey) && e.key?.toLowerCase() === "k") {
         e.preventDefault();
         setOpen((v) => !v);
       }
@@ -60,9 +73,24 @@ export default function CommandPalette() {
     };
   }, []);
 
+  // Focus the input on open, lock page scroll, and hand focus back to where it was on close.
   useEffect(() => {
-    if (open) setTimeout(() => inputRef.current?.focus(), 10);
+    if (!open) return;
+    restoreFocusRef.current = document.activeElement;
+    const t = setTimeout(() => inputRef.current?.focus(), 10);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      clearTimeout(t);
+      document.body.style.overflow = prevOverflow;
+      restoreFocusRef.current?.focus?.({ preventScroll: true });
+    };
   }, [open]);
+
+  // Keep the keyboard-selected item visible inside the scrollable list.
+  useEffect(() => {
+    listRef.current?.querySelector(`[data-index="${cursor}"]`)?.scrollIntoView({ block: "nearest" });
+  }, [cursor]);
 
   if (!open) return null;
 
@@ -70,15 +98,17 @@ export default function CommandPalette() {
     if (e.key === "Escape") close();
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setCursor((c) => Math.min(c + 1, filtered.length - 1));
+      setCursor((c) => Math.max(0, Math.min(c + 1, filtered.length - 1)));
     }
     if (e.key === "ArrowUp") {
       e.preventDefault();
       setCursor((c) => Math.max(c - 1, 0));
     }
     if (e.key === "Enter" && filtered[cursor]) {
-      filtered[cursor].run();
+      e.preventDefault();
+      const action = filtered[cursor];
       close();
+      action.run();
     }
   };
 
@@ -108,7 +138,7 @@ export default function CommandPalette() {
           />
           <kbd className="rounded border border-white/10 px-1.5 py-0.5 font-mono text-[10px] text-fg-dim">ESC</kbd>
         </div>
-        <ul className="max-h-80 overflow-y-auto p-2">
+        <ul ref={listRef} className="max-h-80 overflow-y-auto p-2">
           {filtered.length === 0 && <li className="px-3 py-6 text-center text-sm text-fg-dim">No results.</li>}
           {filtered.map((a, i) => {
             const header = a.group !== lastGroup ? a.group : null;
@@ -118,10 +148,12 @@ export default function CommandPalette() {
               <li key={a.label}>
                 {header && <div className="px-3 pb-1 pt-3 font-mono text-[10px] uppercase tracking-widest text-fg-dim">{header}</div>}
                 <button
+                  type="button"
+                  data-index={i}
                   onMouseEnter={() => setCursor(i)}
                   onClick={() => {
-                    a.run();
                     close();
+                    a.run();
                   }}
                   className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm ${
                     cursor === i ? "bg-white/[0.07] text-fg" : "text-fg-muted"

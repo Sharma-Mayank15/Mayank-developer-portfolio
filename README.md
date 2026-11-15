@@ -1,181 +1,57 @@
+# Mayank Sharma — AI & Software Engineer
 
----
+Personal portfolio of Mayank Sharma: applied AI (computer vision, LLMs/RAG, deep RL) and the real-time React/TypeScript products that ship it.
 
-# 🚀 [Built with by Mayank Sharma](https://github.com/mayank-sharma-dev/portfolio)
+**Live:** https://mayank-developer-portfolio.vercel.app
 
+![Portfolio screenshot](./docs/screenshot.png)
 
-# 🔥 Live Demo
+## Sections
 
-![Screenshot](./public/image/screen.png)
+Hero (live event console) → About (bento) → Selected AI work → Experience → Stack & credentials → Contact.
+Press <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>K</kbd> anywhere for the command palette.
 
-=======
----
+## Stack
 
-# Developer Portfolio
+Next.js 15 (App Router) · React 19 · Tailwind CSS 3.4 · SCSS · Nodemailer · react-icons · react-toastify. Deployed on Vercel.
 
-#### Want to create a stunning portfolio without reinventing the wheel? This portfolio template is built to be sleek, customizable, and perfect for showcasing your developer journey — from projects to skills and contact details. It's optimized for both developers and freelancers alike.
+## Run locally
 
----
-
-🔗 **View the live site here:** [https://mayank-developer-portfolio.vercel.app/]
-
----
-
-## 📚 Table of Contents
-
-- [Sections](#sections-bookmark)
-- [Demo](#demo-movie_camera)
-- [Installation](#installation-arrow_down)
-- [Getting Started](#getting-started-dart)
-- [Usage](#usage-joystick)
-- [Deployment](#deployment-rocket)
-- [Tutorials](#tutorials-wrench)
-- [Packages Used](#packages-used-package)
-
----
-
-## 📌 Sections
-
-- Hero
-- About Me
-- Experience
-- Skills
-- Projects
-- Education
-- Blog
-- Contact
-
----
-
-## ⚙️ Installation
-
-Make sure you have **Git** and **Node.js** installed:
+Requires Node.js 18.18+ (20 LTS recommended).
 
 ```bash
-node --version
-git --version
-```
-
-Clone and install dependencies:
-
-```bash
-git clone https://github.com/mayank-sharma-dev/portfolio.git
-cd portfolio
 npm install
+cp .env.example .env   # fill in the values (see below)
+npm run dev            # http://localhost:3000
 ```
 
-Start the dev server:
+Production check: `npm run build && npm start`.
 
-```bash
-npm run dev
-```
+With Docker: `docker compose up --build dev` (port 3000) or `docker compose up --build prod` (port 3005).
 
-Visit: [http://localhost:3000](http://localhost:3000)
+## Editing content
 
----
+All content lives in `utils/data/`, so components rarely need touching:
 
-## 🐳 Docker Setup
+| File | Contents |
+| --- | --- |
+| `personal-data.js` | Identity, links, summary, hero stats |
+| `experience.js` | Jobs (with client products) and education |
+| `projects-data.js` | Featured AI projects (`visual`: `cctv` / `rag` / `traffic`) and smaller builds |
+| `skills.js` | Skill groups, marquee, research paper, certifications |
 
-```bash
-docker-compose up --build
-```
+To update the résumé, replace `public/Mayank_Sharma_Resume.pdf`.
 
-Then open [http://localhost:3000](http://localhost:3000)
+## Contact form
 
----
+`app/api/contact/route.js` emails each message via Gmail (reply-to is the sender) and optionally pings Telegram. It succeeds if either channel delivers.
 
-## 🧰 Usage
+| Variable | Purpose |
+| --- | --- |
+| `EMAIL_ADDRESS` | Gmail account that sends and receives messages |
+| `GMAIL_PASSKEY` | Gmail [App Password](https://myaccount.google.com/apppasswords) (requires 2FA) |
+| `TELEGRAM_BOT_TOKEN` | Optional, from [@BotFather](https://t.me/botfather) |
+| `TELEGRAM_CHAT_ID` | Optional, chat that receives the ping |
+| `NEXT_PUBLIC_GTM` | Optional Google Tag Manager ID |
 
-1. Create a `.env` file from `.env.example`
-2. Edit the files inside `utils/data/` to reflect your personal data.
-
-Example:
-
-```js
-export const personalData = {
-  name: "Mayank Sharma",
-  profile: "/profile.png",
-  designation: "Full-Stack Developer",
-  description: "I'm a passionate developer building modern solutions with AI, backend systems, and cloud.",
-  email: "your.email@example.com",
-  phone: "+91-XXXXXXXXXX",
-  address: "India",
-  github: "https://github.com/mayank-sharma-dev",
-  linkedIn: "https://linkedin.com/in/mayank-sharma",
-  twitter: "https://twitter.com/yourhandle",
-  devUsername: "yourDevToUsername",
-  resume: "/resume.pdf",
-};
-```
-
----
-
-## 🚀 Deployment
-
-### 🔧 Vercel
-
-1. Push your repo to GitHub
-2. Go to [https://vercel.com](https://vercel.com) and import your project
-3. Add `.env` values
-4. Click **Deploy**
-
-Vercel will rebuild whenever you push.
-
----
-
-## 🛠️ Tutorials
-
-### Gmail App Password
-
-- Enable 2FA → Generate App Password → Add it as `GMAIL_PASSKEY` in `.env`
-
-### Telegram Bot Setup
-
-- Use [@BotFather](https://t.me/botfather) → Get Token → Add it in `.env`
-
----
-
-## 📦 Packages Used
-
-| Package               | Purpose                                |
-|----------------------|----------------------------------------|
-| next                 | Framework                              |
-| react                | Frontend rendering                     |
-| tailwindcss          | Styling                                |
-| nodemailer           | Email sending                          |
-| lottie-react         | Animations                             |
-| react-icons          | Icons                                  |
-| axios                | HTTP requests                          |
-| sharp                | Image optimization                     |
-| react-toastify       | Toast notifications                    |
-| @emailjs/browser     | Contact form integration               |
-
----
-
-## ❓ FAQ
-
-### Getting `"next" not recognized`?
-
-Run this:
-
-```bash
-npm install -g next
-```
-
-Then try:
-
-```bash
-npm run dev
-```
-
----
-
-## 🧠 Pro Tips
-
-- Make your favicon custom! Convert any `.jpeg` image using [favicon.io](https://favicon.io).
-- Replace `favicon.ico` in `/public` with the generated one.
-- Deploy to Netlify? Same flow as Vercel, just point to the repo and set `.env`.
-
----
-
-> 💬 If you like it, give it a ⭐ and connect with me on [LinkedIn](https://linkedin.com/in/mayank-sharma)
+Never commit `.env`; keep `.env.example` blank.

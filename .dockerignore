@@ -6,7 +6,9 @@ yarn-error.log
 .pnpm-debug.log
 package-lock.json.backup
 
-# Ignore local development settings
+# Ignore local development settings (env is supplied at runtime via docker-compose env_file)
+.env
+.git
 .env.local
 .env.development.local
 .env.test.local

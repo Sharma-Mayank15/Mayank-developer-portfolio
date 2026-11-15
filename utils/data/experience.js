@@ -4,7 +4,7 @@ export const experiences = [
     company: "Ditstek Innovations",
     companyNote: "Offshore software development firm",
     url: "https://www.ditstek.com",
-    role: "Software Engineer — React JS (Frontend)",
+    role: "Software Engineer — React JS",
     location: "Mohali, India",
     start: "Aug 2025",
     end: "Present",

@@ -33,15 +33,15 @@ export default function Contact() {
         <div className="mt-14 grid gap-12 lg:grid-cols-[1fr_1.1fr]">
           <Reveal delay={80}>
             <p className="max-w-md text-pretty text-lg leading-relaxed text-fg-muted">
-              Whether it&apos;s a frontend role, an AI-heavy product, or just a good technical conversation — my inbox
-              is open. I usually reply within a day.
+              Whether it&apos;s an AI engineering role, a product that needs applied AI shipped end to end, or just a
+              good technical conversation — my inbox is open. I usually reply within a day.
             </p>
 
-            <CopyEmail className="group mt-8 flex items-center gap-3 text-xl text-fg transition-colors hover:text-signal md:text-2xl" />
+            <CopyEmail className="group mt-8 flex max-w-full items-center gap-3 text-left text-xl text-fg transition-colors [overflow-wrap:anywhere] hover:text-signal md:text-2xl" />
 
-            <div className="mt-3 flex items-center gap-2 text-sm text-fg-muted">
+            <a href={`tel:${personalData.phone.replace(/\s+/g, "")}`} className="mt-3 flex w-fit items-center gap-2 text-sm text-fg-muted transition-colors hover:text-fg">
               <FiPhone /> {personalData.phone}
-            </div>
+            </a>
 
             <ul className="mt-10 divide-y divide-white/[0.07] border-y border-white/[0.07]">
               {socials.map(({ label, href, icon: Icon, handle }) => (

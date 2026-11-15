@@ -9,7 +9,7 @@ export default function Footer() {
         </p>
         <div className="flex items-center gap-5 font-mono text-xs">
           <span className="hidden sm:inline">
-            Press <kbd className="rounded border border-white/10 px-1.5 py-0.5">Ctrl</kbd> <kbd className="rounded border border-white/10 px-1.5 py-0.5">K</kbd>
+            Press <kbd className="rounded border border-white/10 px-1.5 py-0.5">⌘ / Ctrl</kbd> <kbd className="rounded border border-white/10 px-1.5 py-0.5">K</kbd>
           </span>
           <a href="#top" className="hover:text-fg">Back to top ↑</a>
         </div>

@@ -1,4 +1,4 @@
-import { FiArrowUpRight, FiGithub } from "react-icons/fi";
+import { FiArrowUpRight, FiGithub, FiLock } from "react-icons/fi";
 import { featuredProjects, otherProjects } from "@/utils/data/projects-data";
 import { Reveal, SectionHeading, Spotlight } from "../ui";
 import { visuals } from "./project-visuals";
@@ -51,11 +51,15 @@ function FeaturedProject({ project, flip }) {
           </div>
 
           <div className="mt-auto flex items-center gap-4 pt-8">
-            {project.code && (
+            {project.code ? (
               <a href={project.code} target="_blank" rel="noreferrer" className="btn-ghost">
                 <FiGithub /> Source <FiArrowUpRight />
               </a>
-            )}
+            ) : project.privateRepo ? (
+              <span className="chip gap-1.5 py-1.5" title="Proprietary company code — available to discuss in interviews">
+                <FiLock /> Private company repo
+              </span>
+            ) : null}
             {project.metric && (
               <div className="ml-auto text-right">
                 <div className="text-2xl font-medium tracking-tight text-fg">{project.metric.value}</div>
@@ -92,7 +96,7 @@ export default function Projects() {
                 href={p.code}
                 target="_blank"
                 rel="noreferrer"
-                className="group grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 py-5 transition-colors md:grid-cols-[1.2fr_1.6fr_auto_auto]"
+                className="group grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 py-5 transition-colors md:grid-cols-[1.2fr_1.6fr_auto] lg:grid-cols-[1.2fr_1.6fr_auto_auto]"
               >
                 <span className="font-medium text-fg transition-colors group-hover:text-signal">{p.name}</span>
                 <span className="col-span-2 row-start-2 text-sm text-fg-muted md:col-span-1 md:row-start-auto">{p.description}</span>
