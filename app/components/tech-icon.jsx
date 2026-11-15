@@ -1,6 +1,6 @@
-import { FiDatabase } from "react-icons/fi";
+import { FiAward, FiDatabase } from "react-icons/fi";
 import {
-  SiAmazonaws, SiCplusplus, SiDocker, SiExpress, SiFastapi, SiFlask, SiGit, SiGooglechrome, SiGooglecloud, SiHtml5, SiJavascript, SiKeras, SiMongodb,
+  SiAmazonaws, SiCplusplus, SiGoogle, SiIbm, SiJsonwebtokens, SiOracle, SiStripe, SiDocker, SiExpress, SiFastapi, SiFlask, SiGit, SiGooglechrome, SiGooglecloud, SiHtml5, SiJavascript, SiKeras, SiMongodb,
   SiMysql, SiNextdotjs, SiNodedotjs, SiOnnx, SiOpenai, SiOpencv, SiOpenjdk, SiPostgresql, SiPython, SiReact, SiRedux, SiSocketdotio, SiTailwindcss, SiTypescript,
   SiVercel, SiYolo,
 } from "react-icons/si";
@@ -28,7 +28,22 @@ const Mcp = (p) => (
   </svg>
 );
 
+// Anthropic's mark, simplified: a slanted bar beside an "A".
+const Anthropic = (p) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
+    <path d="M13.800 4h3.400l5.800 16h-3.400zM6.800 4h3.600l5.800 16h-3.500l-1.200-3.400H5.500L4.300 20H1zm.700 9.700h3l-1.500-4.300z" />
+  </svg>
+);
+
 const ICONS = {
+  stripe: [SiStripe, "#8b85ff"],
+  jwt: [SiJsonwebtokens, "#ededef"],
+  // certificate issuers
+  anthropic: [Anthropic, "#d97757"],
+  google: [SiGoogle, "#5b9bff"],
+  oracle: [SiOracle, "#ff5a4d"],
+  ibm: [SiIbm, "#6ea6ff"],
+  award: [FiAward, "#ffd343"],
   langchain: [LangChain, "#3ddc97"],
   openai: [SiOpenai, "#ededef"],
   claude: [Claude, "#d97757"],
@@ -63,6 +78,33 @@ const ICONS = {
   cpp: [SiCplusplus, "#659ad2"],
   gcloud: [SiGooglecloud, "#b8bcc6"],
 };
+
+// Display names used in the data files → icon key. Anything not listed renders without a logo.
+const ALIASES = {
+  "react": "react", "typescript": "typescript", "javascript": "javascript", "javascript (es6+)": "javascript",
+  "redux": "redux", "redux toolkit": "redux", "rtk query": "redux", "socket.io": "socketio", "next.js": "nextjs",
+  "tailwind css": "tailwind", "html5 / css3": "html", "node.js": "node", "express": "express", "fastapi": "fastapi",
+  "flask": "flask", "postgresql": "postgres", "mongodb": "mongodb", "mysql": "mysql", "python": "python",
+  "yolo": "yolo", "onnx runtime": "onnx", "opencv": "opencv", "keras": "keras", "langchain": "langchain",
+  "openai api": "openai", "claude api": "claude", "claude code": "claude", "mcp": "mcp", "docker": "docker",
+  "stripe": "stripe", "jwt": "jwt", "git & github": "git", "vercel": "vercel", "java": "java", "c++": "cpp",
+  // issuers
+  "anthropic academy": "anthropic", "google": "google", "oracle": "oracle", "ibm": "ibm", "nptel · iit kharagpur": "award",
+};
+
+/** Icon key for a display name such as "Socket.IO" or "Anthropic Academy", or undefined. */
+export const iconFor = (label) => ALIASES[String(label).trim().toLowerCase()];
+
+/** A stack chip that shows the technology's logo when one is available. */
+export function TechChip({ label, className = "", style }) {
+  const icon = iconFor(label);
+  return (
+    <span className={`chip ${icon ? "gap-1.5 pl-2" : ""} ${className}`} style={style}>
+      {icon && <TechIcon name={icon} className="h-3 w-3 shrink-0" />}
+      {label}
+    </span>
+  );
+}
 
 export default function TechIcon({ name, className = "" }) {
   const entry = ICONS[name];

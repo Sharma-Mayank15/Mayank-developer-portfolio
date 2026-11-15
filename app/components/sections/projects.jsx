@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { FiArrowUpRight, FiGithub, FiLock } from "react-icons/fi";
 import { featuredProjects, otherProjects } from "@/utils/data/projects-data";
+import { TechChip } from "../tech-icon";
 import { Reveal, SectionHeading, Spotlight } from "../ui";
 import ProjectStory from "./stories";
 
@@ -51,7 +52,7 @@ function ProjectDetails({ project }) {
           </ul>
           <div className="mt-6 flex flex-wrap gap-2">
             {project.stack.map((s) => (
-              <span key={s} className="chip">{s}</span>
+              <TechChip key={s} label={s} />
             ))}
           </div>
         </div>
@@ -98,7 +99,7 @@ export default function Projects() {
                   <span className="col-span-2 row-start-2 text-sm text-fg-muted md:col-span-1 md:row-start-auto">{p.description}</span>
                   <span className="hidden gap-1.5 lg:flex">
                     {p.stack.slice(0, 3).map((s) => (
-                      <span key={s} className="chip">{s}</span>
+                      <TechChip key={s} label={s} />
                     ))}
                   </span>
                   <FiArrowUpRight className="row-start-1 justify-self-end text-fg-dim transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-signal md:row-start-auto" />

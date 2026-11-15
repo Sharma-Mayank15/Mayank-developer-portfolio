@@ -2,7 +2,7 @@ import { FiArrowUpRight, FiAward } from "react-icons/fi";
 import { education } from "@/utils/data/experience";
 import { personalData } from "@/utils/data/personal-data";
 import { certifications, skillGroups } from "@/utils/data/skills";
-import TechIcon from "../tech-icon";
+import TechIcon, { iconFor } from "../tech-icon";
 import { Reveal, SectionHeading, Spotlight } from "../ui";
 import SkillField from "./skill-field";
 
@@ -103,7 +103,9 @@ export default function Skills() {
               <Spotlight className="h-full p-5 sm:p-6">
                 <div className="flex items-baseline justify-between gap-4">
                   <div className="flex items-center gap-2.5 text-base font-medium text-fg">
-                    <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${i === 0 ? "bg-signal" : "bg-white/30"}`} aria-hidden />
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-white/[0.08] bg-white/[0.04]" aria-hidden>
+                      <TechIcon name={iconFor(c.issuer) || "award"} className="h-4 w-4" />
+                    </span>
                     {c.issuer}
                   </div>
                   <span className="shrink-0 font-mono text-[11px] text-fg-dim" aria-hidden>

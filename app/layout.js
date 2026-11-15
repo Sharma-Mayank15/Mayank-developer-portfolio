@@ -6,6 +6,7 @@ import { personalData } from "@/utils/data/personal-data";
 import CommandPalette from "./components/command-palette";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";
+import PacedScroll from "./components/paced-scroll";
 import ScrollProgress from "./components/scroll-progress";
 import SpartanBot from "./components/spartan-bot";
 import "./css/globals.scss";
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
         <noscript>
           <style>{`.reveal{opacity:1!important;transform:none!important}`}</style>
         </noscript>
+        <PacedScroll />
         <ScrollProgress />
         <SpartanBot />
         <ToastContainer theme="dark" position="bottom-right" />

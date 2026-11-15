@@ -22,7 +22,7 @@ export const personalData = {
   resume: "/Mayank_Sharma_Resume.pdf",
   // Support links. Leave both empty to hide the "Buy me a coffee" card in the Contact section.
   support: {
-    buyMeACoffee: "", // your buymeacoffee.com handle, e.g. "mayanksharma"
+    buyMeACoffee: "MAYANK_SHARMA15", // buymeacoffee.com handle
     githubSponsors: "", // your GitHub username, once GitHub Sponsors is enabled on the account
   },
   siteUrl: "https://mayank-developer-portfolio.vercel.app",

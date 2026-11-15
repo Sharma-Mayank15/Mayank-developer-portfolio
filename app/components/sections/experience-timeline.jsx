@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { TechChip } from "../tech-icon";
 import { Spotlight } from "../ui";
 import styles from "./experience.module.scss";
 
@@ -118,13 +119,12 @@ export function ExperienceTimeline({ products }) {
               </ul>
               <div className="mt-6 flex flex-wrap gap-2">
                 {p.stack.map((s, j) => (
-                  <span
+                  <TechChip
                     key={s}
-                    className={`${styles.stagger} chip`}
+                    label={s}
+                    className={styles.stagger}
                     style={{ "--d": `${160 + p.points.length * STAGGER_MS + j * 40}ms` }}
-                  >
-                    {s}
-                  </span>
+                  />
                 ))}
               </div>
             </Spotlight>
