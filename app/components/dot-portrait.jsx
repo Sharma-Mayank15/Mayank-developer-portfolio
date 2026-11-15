@@ -204,14 +204,14 @@ export default function DotPortrait({ src, dotSrc, alt, dotLabel = "dots", revea
           style={{ backgroundImage: `url("${src}")`, backgroundPosition: "50% 30%" }}
         />
       )}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/10 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-ink-950 from-40% via-ink-950/85 via-70% to-transparent" />
 
       {ready && (
         <button
           type="button"
           onClick={() => setRevealed((v) => !v)}
           aria-pressed={revealed}
-          className="glass-lens absolute right-3 top-3 flex items-center gap-2 rounded-full px-3 py-1.5 font-mono text-[11px] text-fg transition-colors hover:text-white"
+          className="absolute right-3 top-3 z-10 flex items-center gap-2 rounded-full border border-white/20 bg-ink-950 px-3.5 py-2 font-mono text-[11px] font-medium text-white shadow-[0_6px_20px_rgba(0,0,0,0.6)] transition-colors hover:border-signal hover:text-signal"
         >
           {revealed ? (
             <FiGrid />
@@ -226,7 +226,7 @@ export default function DotPortrait({ src, dotSrc, alt, dotLabel = "dots", revea
       )}
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5">
-        {hint && ready && !revealed && <div className="mb-3 font-mono text-[11px] text-fg-muted">{hint}</div>}
+        {hint && ready && !revealed && <div className="mb-3 font-mono text-[11px] text-fg">{hint}</div>}
         {children}
       </div>
     </div>
