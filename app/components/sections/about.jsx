@@ -35,8 +35,8 @@ export default function About() {
               src={personalData.profile}
               dotSrc="/warrior.svg"
               dotLabel="the helmet"
-              revealLabel="Who's behind the helmet?"
-              hint="Every warrior has a face. Click to unmask."
+              revealLabel="Click to see my photo"
+              hint="My photo is hidden behind this warrior."
               alt="Portrait of Mayank Sharma"
             >
               <div className="flex items-center gap-1.5 text-sm text-fg">
