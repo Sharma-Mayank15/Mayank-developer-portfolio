@@ -34,7 +34,7 @@ export default function Navbar() {
   useEffect(() => {
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     const platform = navigator.userAgentData?.platform || navigator.platform || "";
-    setShortcut(/mac|iphone|ipad/i.test(platform) ? "⌘ K" : "Ctrl K");
+    setShortcut(/mac|iphone|ipad/i.test(platform) ? ["⌘", "K"] : ["Ctrl", "K"]);
   }, []);
 
   // Slide the glass lens under whichever tab is active.
@@ -127,13 +127,21 @@ export default function Navbar() {
             type="button"
             onClick={openPalette}
             className={`glass-lens flex h-9 items-center gap-2 rounded-full font-mono text-[11px] text-fg-muted transition-colors hover:text-fg ${
-              shortcut ? "px-3" : "w-9 justify-center"
+              shortcut ? "pl-3 pr-2" : "w-9 justify-center"
             }`}
             aria-label="Open command menu"
             aria-keyshortcuts="Control+K Meta+K"
           >
             <FiSearch size={13} />
-            {shortcut && <span>{shortcut}</span>}
+            {shortcut && (
+              <span className="flex items-center gap-1">
+                {shortcut.map((key) => (
+                  <kbd key={key} className="rounded-[5px] border border-white/15 bg-white/[0.06] px-1.5 py-px font-mono text-[10px] leading-4 text-fg">
+                    {key}
+                  </kbd>
+                ))}
+              </span>
+            )}
           </button>
           <button
             type="button"
