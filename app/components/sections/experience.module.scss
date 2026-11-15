@@ -1,0 +1,174 @@
+/*
+  Experience timeline.
+  Default state (no JS / reduced motion) is fully visible with the rail drawn.
+  `.live` is added by JS on mount and is the only thing that ever hides content;
+  `.ready` is added a frame later so the initial dim-down does not animate.
+  Only transform and opacity are animated.
+*/
+
+$signal: #ff6b2c;
+$ease: cubic-bezier(0.16, 1, 0.3, 1);
+$node: 11px;
+
+.timeline {
+  --progress: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-left: 1.75rem;
+
+  @media (min-width: 768px) {
+    gap: 1.25rem;
+    padding-left: 2.75rem;
+  }
+}
+
+/* ---------- Rail ---------- */
+.rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.09);
+  pointer-events: none;
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -0.5px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, rgba($signal, 0.35), $signal);
+  transform: scaleY(var(--progress));
+  transform-origin: top center;
+  will-change: transform;
+}
+
+/* ---------- Item ---------- */
+.item {
+  position: relative;
+}
+
+.node {
+  position: absolute;
+  top: 30px;
+  left: -1.75rem;
+  width: $node;
+  height: $node;
+  pointer-events: none;
+
+  @media (min-width: 768px) {
+    left: -2.75rem;
+  }
+}
+
+/* Dim ring, always present underneath */
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: #07080a;
+}
+
+/* Lit state: filled orange with a soft glow, cross-faded via opacity/scale */
+.lit {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: $signal;
+  box-shadow:
+    0 0 0 4px rgba($signal, 0.14),
+    0 0 16px 2px rgba($signal, 0.55);
+}
+
+/* Short connector from node to card */
+.tick {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  height: 1px;
+  width: calc(1.75rem - #{$node});
+  background: linear-gradient(to right, rgba($signal, 0.7), rgba($signal, 0));
+  transform-origin: left center;
+
+  @media (min-width: 768px) {
+    width: calc(2.75rem - #{$node});
+  }
+}
+
+/* ---------- Live (JS mounted, motion allowed) ---------- */
+.live {
+  .item:not([data-active="true"]) {
+    .lit {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    .tick {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .body {
+      opacity: 0.4;
+      transform: translate3d(0, 14px, 0);
+    }
+    .stagger {
+      opacity: 0;
+      transform: translate3d(0, 8px, 0);
+    }
+  }
+}
+
+.ready {
+  .lit {
+    transition: opacity 0.45s ease-out, transform 0.6s $ease;
+  }
+  .tick {
+    transition: opacity 0.4s ease-out, transform 0.6s $ease;
+  }
+  .body {
+    transition: opacity 0.7s $ease, transform 0.7s $ease;
+  }
+  .stagger {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+  /* Stagger only on the way in; leaving is immediate */
+  .item[data-active="true"] .stagger {
+    transition: opacity 0.6s $ease, transform 0.6s $ease;
+    transition-delay: var(--d, 0ms);
+  }
+}
+
+/* ---------- Time in role ---------- */
+.tenure {
+  animation: tenure-in 0.6s $ease both;
+}
+
+@keyframes tenure-in {
+  from {
+    opacity: 0;
+    transform: translate3d(-4px, 0, 0);
+  }
+}
+
+/* ---------- Reduced motion: everything present, rail drawn ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transform: none !important;
+  }
+  .timeline .item .lit,
+  .timeline .item .tick,
+  .timeline .item .body,
+  .timeline .item .stagger {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .tenure {
+    animation: none;
+  }
+}

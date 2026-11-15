@@ -4,7 +4,7 @@ import { experiences } from "@/utils/data/experience";
 import { personalData, stats } from "@/utils/data/personal-data";
 import { marquee, research } from "@/utils/data/skills";
 import TechIcon from "../tech-icon";
-import { LocalTime, Reveal, SectionHeading, Spotlight } from "../ui";
+import { CountUp, LocalTime, Reveal, SectionHeading, Spotlight, Tilt } from "../ui";
 
 export default function About() {
   const now = experiences[0];
@@ -30,26 +30,28 @@ export default function About() {
 
         {/* Photo + location */}
         <Reveal delay={80} className="md:col-span-2">
-          <div className="card group h-full min-h-[22rem]">
-            <Image
-              src={personalData.profile}
-              alt="Portrait of Mayank Sharma"
-              fill
-              sizes="(min-width: 768px) 24rem, 100vw"
-              className="object-cover grayscale transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/20 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
-              <div>
-                <div className="flex items-center gap-1.5 text-sm text-fg">
-                  <FiMapPin className="text-signal" /> {personalData.location}
-                </div>
-                <div className="mt-1 font-mono text-xs text-fg-muted">
-                  IST · <LocalTime />
+          <Tilt className="h-full">
+            <div className="card group h-full min-h-[22rem]">
+              <Image
+                src={personalData.profile}
+                alt="Portrait of Mayank Sharma"
+                fill
+                sizes="(min-width: 768px) 24rem, 100vw"
+                className="object-cover grayscale transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
+                <div>
+                  <div className="flex items-center gap-1.5 text-sm text-fg">
+                    <FiMapPin className="text-signal" /> {personalData.location}
+                  </div>
+                  <div className="mt-1 font-mono text-xs text-fg-muted">
+                    IST · <LocalTime />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Tilt>
         </Reveal>
 
         {/* Now */}
@@ -84,7 +86,9 @@ export default function About() {
           <div className="grid h-full grid-cols-2 gap-4">
             {stats.map((s) => (
               <Spotlight key={s.label} className="flex flex-col justify-between p-6">
-                <div className="text-4xl font-medium tracking-tight text-fg md:text-5xl">{s.value}</div>
+                <div className="text-4xl font-medium tracking-tight text-fg md:text-5xl">
+                  <CountUp value={s.value} />
+                </div>
                 <div className="mt-6 text-sm text-fg-muted">{s.label}</div>
               </Spotlight>
             ))}

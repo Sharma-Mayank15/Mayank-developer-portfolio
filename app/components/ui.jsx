@@ -94,3 +94,140 @@ export function CopyEmail({ className = "", children }) {
     </button>
   );
 }
+
+/* ---------- Scroll-driven primitives ---------- */
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/**
+ * Calls `onFrame(scrollY)` once after mount and then at most once per animation frame while the
+ * page scrolls or resizes. Meant for writing transforms straight to element styles (no setState).
+ * Does nothing when the user prefers reduced motion, so elements keep their static styles.
+ */
+export function useScrollFrame(onFrame) {
+  const cb = useRef(onFrame);
+  useEffect(() => {
+    cb.current = onFrame;
+  });
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    let raf = 0;
+    const run = () => {
+      raf = 0;
+      cb.current(window.scrollY);
+    };
+    const request = () => {
+      if (!raf) raf = requestAnimationFrame(run);
+    };
+    run();
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+    return () => {
+      window.removeEventListener("scroll", request);
+      window.removeEventListener("resize", request);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+}
+
+/**
+ * Counts the numeric part of `value` up from 0 the first time it scrolls into view, keeping any
+ * prefix/suffix ("90%+", "−35%", "1+"). Server-renders the final value, so it stays correct
+ * without JS and under reduced motion.
+ */
+export function CountUp({ value, duration = 1400, className = "" }) {
+  const text = String(value);
+  const match = text.match(/^(\D*)(\d+(?:\.\d+)?)(.*)$/);
+  const numRef = useRef(null);
+  const target = match ? parseFloat(match[2]) : 0;
+  const decimals = match ? (match[2].split(".")[1] || "").length : 0;
+
+  useEffect(() => {
+    const el = numRef.current;
+    if (!el || !target || prefersReducedMotion() || typeof IntersectionObserver === "undefined") return;
+    const final = target.toFixed(decimals);
+    let raf = 0;
+    el.textContent = (0).toFixed(decimals);
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        const start = performance.now();
+        const tick = (t) => {
+          const p = Math.min(1, Math.max(0, (t - start) / duration));
+          const eased = 1 - Math.pow(1 - p, 4);
+          el.textContent = p < 1 ? (target * eased).toFixed(decimals) : final;
+          if (p < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+      },
+      { threshold: 0.6 }
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+      el.textContent = final;
+    };
+  }, [target, decimals, duration]);
+
+  if (!match) return <span className={className}>{text}</span>;
+  return (
+    <span className={`tabular-nums ${className}`}>
+      <span aria-hidden>
+        {match[1]}
+        <span ref={numRef}>{match[2]}</span>
+        {match[3]}
+      </span>
+      <span className="sr-only">{text}</span>
+    </span>
+  );
+}
+
+/** Gentle 3D tilt toward the cursor. Mouse only — inert on touch devices and under reduced motion. */
+export function Tilt({ children, className = "", max = 4 }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || prefersReducedMotion() || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    let raf = 0;
+    let rx = 0;
+    let ry = 0;
+    const apply = () => {
+      raf = 0;
+      el.style.transform = `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+    };
+    const onMove = (e) => {
+      if (e.pointerType !== "mouse") return;
+      const r = el.getBoundingClientRect();
+      const px = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) - 0.5;
+      const py = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)) - 0.5;
+      ry = px * 2 * max;
+      rx = -py * 2 * max;
+      el.style.transitionDuration = "200ms"; // follow the cursor quickly…
+      if (!raf) raf = requestAnimationFrame(apply);
+    };
+    const onLeave = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      el.style.transitionDuration = ""; // …and ease back slowly (class duration)
+      el.style.transform = "";
+    };
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", onLeave);
+    return () => {
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+      onLeave();
+    };
+  }, [max]);
+
+  return (
+    <div ref={ref} className={`transition-transform duration-700 ease-out ${className}`}>
+      {children}
+    </div>
+  );
+}

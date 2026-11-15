@@ -1,0 +1,301 @@
+/* Scroll-driven exploded view. Everything here is only used by the enhanced
+   (JS + motion allowed) version; the static fallback is plain Tailwind. */
+
+.section {
+  position: relative;
+  height: 450vh;
+
+  @media (max-width: 767px) {
+    height: 400vh;
+  }
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+
+  /* soft floor light behind the object */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse 46% 42% at 68% 52%, rgba(255, 255, 255, 0.045), transparent 70%);
+  }
+
+  @media (max-width: 767px) {
+    &::before {
+      background: radial-gradient(ellipse 80% 30% at 50% 30%, rgba(255, 255, 255, 0.045), transparent 70%);
+    }
+  }
+}
+
+.layout {
+  position: relative;
+  display: grid;
+  height: 100%;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  align-items: center;
+  column-gap: 2rem;
+
+  @media (max-width: 767px) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 50% minmax(0, 1fr);
+    align-items: start;
+    row-gap: 0;
+  }
+}
+
+.textCol {
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 767px) {
+    order: 2;
+  }
+}
+
+/* ---------- 3D object ---------- */
+
+.scene {
+  --w: min(480px, 33vw, 54svh); /* size of the frame when flat; it scales down as it tilts */
+  position: relative;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: calc(var(--w) * 0.12);
+  perspective: 1700px;
+
+  /* narrower desktops: keep room on the right for the layer label */
+  @media (max-width: 1180px) {
+    --w: min(480px, 30vw, 54svh);
+    padding-left: calc(var(--w) * 0.04);
+  }
+
+  @media (max-width: 767px) {
+    --w: min(300px, 76vw, 34svh);
+    order: 1;
+    justify-content: center;
+    padding-left: 0;
+    padding-top: 3.5rem; /* clear the floating nav */
+    perspective: 1100px;
+  }
+}
+
+.stack {
+  position: relative;
+  flex: none;
+  width: var(--w);
+  aspect-ratio: 8 / 5;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.plane {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  will-change: transform, opacity;
+
+  @media (max-width: 767px) {
+    border-radius: 9px;
+  }
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  svg {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* dark glass behind a lifted layer; fades out when the layers recombine */
+.glassBg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(34, 37, 44, 0.8), rgba(12, 13, 16, 0.8));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid #ff6b2c;
+  box-shadow:
+    0 0 0 1px rgba(255, 107, 44, 0.18),
+    0 0 36px rgba(255, 107, 44, 0.32),
+    inset 0 0 28px rgba(255, 107, 44, 0.1);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* vertical guide lines between the layers (classic exploded-view leaders) */
+.guide {
+  position: absolute;
+  width: 1px;
+  height: 100px;
+  transform-origin: 0 0;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0 3px, transparent 3px 7px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tag {
+  opacity: var(--tag, 1);
+}
+
+/* 2D label; JS projects the active layer's right-hand corner and moves it there */
+.label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  will-change: transform, opacity;
+  opacity: 0;
+  pointer-events: none;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.labelInner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #ededef;
+
+  @media (max-width: 1100px) {
+    font-size: 10px;
+  }
+}
+
+.labelDot {
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: #ff6b2c;
+  box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.22);
+}
+
+.labelLine {
+  width: 34px;
+  height: 1px;
+  margin-left: -6px;
+  background: linear-gradient(to right, #ff6b2c, rgba(255, 107, 44, 0.35));
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.labelNum {
+  color: #ff6b2c;
+}
+
+/* ---------- text column ---------- */
+
+.copyRow {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.rail {
+  position: relative;
+  flex: none;
+  width: 14px;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2px 0;
+
+  &::before,
+  .railFill {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+
+  &::before {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.railFill {
+  background: #ff6b2c;
+  transform-origin: 0 0;
+  transform: scaleY(0);
+}
+
+.tick {
+  position: relative;
+  display: block;
+  width: 6px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.28);
+  transform-origin: 0 50%;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+
+  &[data-on="true"] {
+    background: #ff6b2c;
+    transform: scaleX(2.3);
+  }
+
+  &[data-done="true"] {
+    background: rgba(255, 107, 44, 0.55);
+  }
+}
+
+.steps {
+  position: relative;
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+
+.step {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 0.35s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+
+  &[data-state="past"] {
+    transform: translate3d(0, -14px, 0);
+  }
+
+  &[data-state="on"] {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.12s;
+    pointer-events: auto;
+  }
+}

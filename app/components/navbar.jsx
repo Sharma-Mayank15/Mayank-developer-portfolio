@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { FiCommand, FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiSearch, FiX } from "react-icons/fi";
 
 export const NAV_LINKS = [
   { id: "about", label: "About" },
@@ -12,12 +12,30 @@ export const NAV_LINKS = [
   { id: "contact", label: "Contact" },
 ];
 
+/** Monogram: an "M" drawn as a signal path, with one live node. */
+function Mark() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+      <path d="M4 19V5.5l8 9 8-9V19" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="12" cy="14.5" r="2.6" className="fill-signal" />
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const [active, setActive] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [lens, setLens] = useState(null); // { left, width } of the active tab
   const linkRefs = useRef({});
+  // Keyboard hint for the command menu: "⌘K" on Apple devices, "Ctrl K" elsewhere, nothing on touch screens.
+  const [shortcut, setShortcut] = useState(null);
+
+  useEffect(() => {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const platform = navigator.userAgentData?.platform || navigator.platform || "";
+    setShortcut(/mac|iphone|ipad/i.test(platform) ? "⌘ K" : "Ctrl K");
+  }, []);
 
   // Slide the glass lens under whichever tab is active.
   useLayoutEffect(() => {
@@ -77,8 +95,8 @@ export default function Navbar() {
         aria-label="Main"
       >
         <Link href="/#top" className="flex items-center gap-2.5 rounded-full py-1 pl-2 pr-3" onClick={() => setOpen(false)}>
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-fg font-serif text-base italic leading-none text-ink-950">
-            m
+          <span className="text-fg">
+            <Mark />
           </span>
           <span className="text-sm font-medium text-fg">Mayank Sharma</span>
         </Link>
@@ -108,10 +126,14 @@ export default function Navbar() {
           <button
             type="button"
             onClick={openPalette}
-            className="glass-lens hidden items-center gap-1.5 rounded-full px-3 py-1.5 font-mono text-[11px] text-fg-muted transition-colors hover:text-fg sm:flex"
+            className={`glass-lens flex h-9 items-center gap-2 rounded-full font-mono text-[11px] text-fg-muted transition-colors hover:text-fg ${
+              shortcut ? "px-3" : "w-9 justify-center"
+            }`}
             aria-label="Open command menu"
+            aria-keyshortcuts="Control+K Meta+K"
           >
-            <FiCommand /> K
+            <FiSearch size={13} />
+            {shortcut && <span>{shortcut}</span>}
           </button>
           <button
             type="button"

@@ -1,22 +1,30 @@
 import { FiArrowDown, FiArrowUpRight } from "react-icons/fi";
 import { personalData } from "@/utils/data/personal-data";
 import { CopyEmail, LocalTime, Reveal } from "../ui";
-import HeroConsole from "./hero-console";
+import { getAiNews } from "@/utils/ai-news";
+import AiWire from "./ai-wire";
+import HeroParallax, { ScrollCue } from "./hero-parallax";
 
-export default function Hero() {
+export default async function Hero() {
+  const news = await getAiNews(5);
+
   return (
-    <section id="top" className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-32">
-      {/* backdrop */}
-      <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
-      <div
-        className="pointer-events-none absolute left-1/2 top-[-12rem] h-[34rem] w-[58rem] -translate-x-1/2 rounded-full opacity-[0.16] blur-[120px]"
-        style={{ background: "radial-gradient(closest-side, #ff6b2c, transparent)" }}
-        aria-hidden
-      />
+    <HeroParallax id="top" className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-32">
+      {/* backdrop — one layer, so grid and glow lag behind the page together */}
+      <div data-hero-layer="backdrop" className="pointer-events-none absolute inset-0 will-change-transform" aria-hidden>
+        <div className="hero-grid absolute inset-0" />
+        <div
+          className="absolute left-1/2 top-[-12rem] h-[34rem] w-[58rem] -translate-x-1/2 rounded-full opacity-[0.16] blur-[120px]"
+          style={{ background: "radial-gradient(closest-side, #ff6b2c, transparent)" }}
+        />
+      </div>
 
       <div className="container-page relative">
-        <Reveal delay={400} className="absolute right-8 top-24 hidden xl:block">
-          <HeroConsole />
+        {/* Desktop: today's AI headlines float beside the name. Smaller screens get the same card further down. */}
+        <Reveal delay={400} className="absolute right-8 top-16 hidden w-[23rem] xl:block">
+          <div data-hero-layer="console" className="will-change-transform">
+            <AiWire items={news} />
+          </div>
         </Reveal>
         <Reveal>
           <a
@@ -37,7 +45,10 @@ export default function Hero() {
         </Reveal>
 
         <Reveal delay={80}>
-          <h1 className="text-[clamp(3.2rem,11vw,9.5rem)] font-semibold leading-[0.88] tracking-[-0.045em] text-fg">
+          <h1
+            data-hero-layer="name"
+            className="origin-left text-[clamp(3.2rem,11vw,9.5rem)] font-semibold leading-[0.88] tracking-[-0.045em] text-fg will-change-transform"
+          >
             Mayank
             <br />
             <span className="text-white/30">Sharma</span>
@@ -78,7 +89,13 @@ export default function Hero() {
             ))}
           </div>
         </Reveal>
+
+        <Reveal delay={400} className="mt-12 xl:hidden">
+          <AiWire items={news} className="max-w-xl" />
+        </Reveal>
       </div>
-    </section>
+
+      <ScrollCue />
+    </HeroParallax>
   );
 }
