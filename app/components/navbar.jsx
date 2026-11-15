@@ -98,7 +98,7 @@ export default function Navbar() {
           <span className="text-fg">
             <Mark />
           </span>
-          <span className="text-sm font-medium text-fg">Mayank Sharma</span>
+          <span className="whitespace-nowrap text-sm font-medium text-fg">Mayank Sharma</span>
         </Link>
 
         <ul className="relative hidden items-center md:flex">
@@ -127,14 +127,14 @@ export default function Navbar() {
             type="button"
             onClick={openPalette}
             className={`glass-lens flex h-9 items-center gap-2 rounded-full font-mono text-[11px] text-fg-muted transition-colors hover:text-fg ${
-              shortcut ? "pl-3 pr-2" : "w-9 justify-center"
+              shortcut ? "w-9 justify-center sm:w-auto sm:pl-3 sm:pr-2" : "w-9 justify-center"
             }`}
             aria-label="Open command menu"
             aria-keyshortcuts="Control+K Meta+K"
           >
             <FiSearch size={13} />
             {shortcut && (
-              <span className="flex items-center gap-1">
+              <span className="hidden items-center gap-1 sm:flex">
                 {shortcut.map((key) => (
                   <kbd key={key} className="rounded-[5px] border border-white/15 bg-white/[0.06] px-1.5 py-px font-mono text-[10px] leading-4 text-fg">
                     {key}
