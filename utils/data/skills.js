@@ -1,122 +1,57 @@
-export const skillsData = [
-  'Python',
-  'Java',
-  'JavaScript',
-  'C++',
-  'SQL',
-  'HTML',
-  'CSS',
-  'FastAPI',
-  'Flask',
-  'Node JS',
-  'Express.js',
-  'Spring Boot',
-  'Keras',
-  'LangChain',
-  'MongoDB',
-  'MySQL',
-  'Docker',
-  'Git',
-  'GitHub',
-  'REST APIs',
-  'VS Code',
-  'OpenAI API',
-  'Reinforcement Learning',
-  'Deep Q-Learning',
-  'SUMO',
-  'TraCI',
-  'Tableau',
-  'Power BI',
-  'OOPS',
-  'DBMS',
-  'Operating Systems',
-  'SDLC'
+export const skillGroups = [
+  {
+    title: "AI & ML",
+    note: "What I build",
+    items: ["LLM applications", "RAG pipelines", "LangChain", "OpenAI API", "Claude API", "MCP · Agent Skills", "Prompt engineering", "LLM evaluation", "YOLO · computer vision", "ONNX Runtime · OpenCV", "Keras · Deep RL (DQN)", "Vertex AI"],
+  },
+  {
+    title: "Product engineering",
+    note: "How AI reaches users",
+    items: ["React", "TypeScript", "JavaScript (ES6+)", "Redux Toolkit", "RTK Query", "Socket.IO", "Next.js", "Tailwind CSS", "HTML5 / CSS3", "Responsive design"],
+  },
+  {
+    title: "Backend & Data",
+    note: "APIs and the data behind them",
+    items: ["Node.js", "Express", "FastAPI", "Flask", "REST APIs", "PostgreSQL", "MongoDB", "MySQL", "SQL"],
+  },
+  {
+    title: "Tooling",
+    note: "How it ships",
+    items: ["Git & GitHub", "Code review", "Docker", "Chrome DevTools", "Claude Code", "Vercel", "AWS (EC2, S3)", "Python", "Java", "C++"],
+  },
 ];
 
-// Choose your skills from below. Make sure it's in the same format and spelled correctly.
-// Couldn't find the required skills? Raise an issue on github at https://github.com/hhhrrrttt222111/developer-portfolio/issues/new
+// `icon` keys map to logos in app/components/tech-icon.jsx
+export const marquee = [
+  { name: "LangChain", icon: "langchain" },
+  { name: "OpenAI API", icon: "openai" },
+  { name: "Claude API", icon: "claude" },
+  { name: "MCP", icon: "mcp" },
+  { name: "RAG", icon: "rag" },
+  { name: "YOLO", icon: "yolo" },
+  { name: "ONNX Runtime", icon: "onnx" },
+  { name: "OpenCV", icon: "opencv" },
+  { name: "Keras", icon: "keras" },
+  { name: "Python", icon: "python" },
+  { name: "FastAPI", icon: "fastapi" },
+  { name: "React", icon: "react" },
+  { name: "TypeScript", icon: "typescript" },
+  { name: "Socket.IO", icon: "socketio" },
+  { name: "PostgreSQL", icon: "postgres" },
+  { name: "Docker", icon: "docker" },
+];
 
+export const research = {
+  title: "Unlocking the Power of Generative Pre-Training",
+  venue: "ICCMST 2024 · Taylor & Francis (CRC Press)",
+  description: "A GPT-3-based conversational AI framework — co-authored chapter published in the conference proceedings.",
+  url: "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003561651-11/unlocking-power-generative-pre-training-gpt-3-based-conversational-ai-framework-ishdeep-singla-mayank-sharma-shivam-dubey-aditya-ayush-tyagi-rahul-tiwari",
+};
 
-// AVAILABLE SKILLS
-
-/* 
-  HTML
-  CSS
-  JS 
-  React
-  Next JS
-  Nuxt JS
-  Node JS
-  Vue
-  Angular
-  Docker
-  Photoshop
-  Illustrator
-  Svelte
-  GCP
-  Azure
-  Fastify
-  Haxe
-  Ionic
-  Markdown
-  Microsoft Office
-  Picsart
-  Sketch
-  Unity
-  WolframAlpha
-  Adobe XD
-  After Effects
-  Bootstrap
-  Bulma
-  CapacitorJs
-  Coffeescript
-  MemSQL
-  C
-  C++
-  C#
-  Python
-  Java
-  Julia
-  Matlab
-  Swift
-  Ruby
-  Kotlin
-  Go
-  PHP
-  Flutter
-  Dart
-  Typescript
-  Swift
-  Git
-  Figma
-  Canva
-  Ubuntu
-  Bootstrap
-  MongoDB
-  Tailwind
-  ViteJS
-  VuetifyJS
-  MySQL
-  PostgreSQL
-  Prisma
-  AWS
-  Firebase
-  Blender
-  Premiere Pro
-  Adobe Audition
-  Deno
-  Django
-  Gimp
-  Graphql
-  Lightroom
-  MaterialUI
-  Nginx
-  Numpy
-  OpenCV
-  Pytorch
-  Selenium
-  Strapi
-  Tensorflow
-  Webex
-  Wordpress
-*/
+export const certifications = [
+  { issuer: "Anthropic Academy", items: "Claude Code, Claude API, Model Context Protocol, Agent Skills, Subagents" },
+  { issuer: "Google", items: "Generative AI, Google Cloud AI, Vertex AI, Large Language Models" },
+  { issuer: "Oracle", items: "OCI 2025 Certified AI Foundations Associate" },
+  { issuer: "IBM", items: "Python Programming, Python Data Structures, Python Development" },
+  { issuer: "NPTEL · IIT Kharagpur", items: "Gold Medal — Internet of Things" },
+];

@@ -14,23 +14,20 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const escapeHtml = (str = '') =>
+  String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
 // ✅ Send a Telegram message
 async function sendTelegramMessage(token, chat_id, message) {
   const url = `https://api.telegram.org/bot${token}/sendMessage`;
 
   try {
-    console.log("📨 Sending Telegram message...");
-    console.log("🔐 Bot Token:", token ? "✅ loaded" : "❌ missing");
-    console.log("👤 Chat ID:", chat_id || "❌ missing");
-    console.log("📝 Message:", message);
-
     const res = await axios.post(url, {
       chat_id,
       text: message,
-      parse_mode: "Markdown", // <--- Add this line!
+
     });
     
-    console.log("✅ Telegram response:", res.data);
     return res.data.ok;
   } catch (error) {
     console.error("❌ Error sending Telegram message:", error.response?.data || error.message);
@@ -43,10 +40,10 @@ const generateEmailTemplate = (name, email, userMessage) => `
   <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4;">
     <div style="max-width: 600px; margin: auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
       <h2 style="color: #007BFF;">New Message Received</h2>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(email)}</p>
       <p><strong>Message:</strong></p>
-      <blockquote style="border-left: 4px solid #007BFF; padding-left: 10px;">${userMessage}</blockquote>
+      <blockquote style="border-left: 4px solid #007BFF; padding-left: 10px;">${escapeHtml(userMessage)}</blockquote>
       <p style="font-size: 12px; color: #888;">Click reply to respond to the sender.</p>
     </div>
   </div>
@@ -59,7 +56,7 @@ async function sendEmail(payload, message) {
   const mailOptions = {
     from: `"Mayank Portfolio" <${process.env.EMAIL_ADDRESS}>`,
     to: process.env.EMAIL_ADDRESS,
-    subject: `New Message From ${name}`,
+    subject: `New Message From ${String(name).slice(0, 100)}`,
     text: message,
     html: generateEmailTemplate(name, email, userMessage),
     replyTo: email,
@@ -85,34 +82,40 @@ export async function POST(request) {
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chat_id = process.env.TELEGRAM_CHAT_ID;
 
-    // 🚨 Check if all environment variables are available
-    if (!token || !chat_id || !process.env.EMAIL_ADDRESS || !process.env.GMAIL_PASSKEY) {
-      console.error("❌ Missing environment variables.");
-      return NextResponse.json({
-        success: false,
-        message: "One or more environment variables are missing.",
-      }, { status: 400 });
+    if (!name || !email || !userMessage) {
+      return NextResponse.json({ success: false, message: "All fields are required." }, { status: 400 });
     }
 
-    const formattedMessage = `🧾 *New Message From Portfolio*\n\n👤 *Name*: ${name}\n📧 *Email*: ${email}\n📝 *Message*:\n${userMessage}`;
+    const gmailReady = Boolean(process.env.EMAIL_ADDRESS && process.env.GMAIL_PASSKEY);
+    const telegramReady = Boolean(token && chat_id);
 
-    // 💬 Telegram
-    const telegramSuccess = await sendTelegramMessage(token, chat_id, formattedMessage);
-
-    // 📧 Email
-    const emailSuccess = await sendEmail(payload, formattedMessage);
-
-    if (telegramSuccess && emailSuccess) {
+    if (!gmailReady && !telegramReady) {
+      console.error("❌ No delivery channel configured (set Gmail and/or Telegram env vars).");
       return NextResponse.json({
-        success: true,
-        message: "Message sent via Telegram and Email!",
-      }, { status: 200 });
+        success: false,
+        message: `Contact form is not configured. Please email ${process.env.EMAIL_ADDRESS || "me"} directly.`,
+      }, { status: 500 });
+    }
+
+    // Plain text (no parse_mode) so user input can't break Telegram's Markdown parser
+    const formattedMessage = `🧾 New Message From Portfolio\n\n👤 Name: ${name}\n📧 Email: ${email}\n📝 Message:\n${userMessage}`;
+
+    // Gmail is the primary inbox; Telegram is an optional instant ping. Send both in parallel.
+    const [emailSuccess, telegramSuccess] = await Promise.all([
+      gmailReady ? sendEmail(payload, formattedMessage) : Promise.resolve(false),
+      telegramReady ? sendTelegramMessage(token, chat_id, formattedMessage) : Promise.resolve(false),
+    ]);
+
+    // Succeed if the message reached at least one channel — otherwise the visitor retries and you get duplicates.
+    if (emailSuccess || telegramSuccess) {
+      if (gmailReady && !emailSuccess) console.error("⚠️ Gmail delivery failed; message only reached Telegram.");
+      return NextResponse.json({ success: true, message: "Message sent!" }, { status: 200 });
     }
 
     return NextResponse.json({
       success: false,
-      message: "Failed to send one or both messages.",
-    }, { status: 500 });
+      message: `Couldn't send right now. Please email ${process.env.EMAIL_ADDRESS} directly.`,
+    }, { status: 502 });
 
   } catch (error) {
     console.error("❌ API Error:", error.message);
