@@ -14,7 +14,7 @@ export default function Experience() {
           <div className="md:col-span-4">
             <Reveal className="md:sticky md:top-28">
               <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-fg-muted">
-                {job.start} — {job.current ? <span className="text-ok">{job.end}</span> : job.end}
+                {job.start} to {job.current ? <span className="text-ok">{job.end}</span> : job.end}
                 {job.current && <TimeInRole start={job.start} />}
               </div>
               <h3 className="mt-3 text-2xl font-medium tracking-tight text-fg">

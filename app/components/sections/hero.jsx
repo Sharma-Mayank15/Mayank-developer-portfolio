@@ -58,8 +58,8 @@ export default async function Hero() {
 
         <Reveal delay={160}>
           <p className="mt-10 max-w-2xl text-balance text-xl leading-relaxed text-fg-muted sm:text-2xl">
-            AI engineer building <em className="font-serif text-[1.15em] italic text-fg">intelligent systems</em> —
-            computer vision, LLMs &amp; RAG, deep RL — and the{" "}
+            AI engineer building <em className="font-serif text-[1.15em] italic text-fg">intelligent systems</em>:
+            computer vision, LLMs &amp; RAG and deep RL, plus the{" "}
             <em className="font-serif text-[1.15em] italic text-fg">real-time products</em> that put them in users&apos; hands.
           </p>
         </Reveal>

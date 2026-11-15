@@ -290,7 +290,7 @@ const traffic = {
     {
       label: "Action → reward",
       title: "It switches, then gets graded",
-      body: "The agent takes the highest-value action, here switching green from north–south to east–west. The reward then reports whether waiting went down. That is what it learns from.",
+      body: "The agent takes the highest-value action, here switching green from north-south to east-west. The reward then reports whether waiting went down. That is what it learns from.",
       Layer: ActionLayer,
       backdrop: true,
     },

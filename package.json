@@ -10,12 +10,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/third-parties": "15.1.1",
+    "@next/third-parties": "15.5.29",
     "axios": "^1.6.8",
-    "next": "15.1.1",
+    "next": "15.5.29",
     "nodemailer": "^6.9.15",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
     "react-icons": "^4.11.0",
     "react-toastify": "^10.0.4",
     "sharp": "^0.33.5"
@@ -23,7 +23,7 @@
   "devDependencies": {
     "autoprefixer": "^10.6.2",
     "eslint": "^9.39.5",
-    "eslint-config-next": "15.1.1",
+    "eslint-config-next": "15.5.29",
     "postcss": "^8.5.33",
     "sass": "^1.69.5",
     "tailwindcss": "^3.4.17"

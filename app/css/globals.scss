@@ -138,6 +138,17 @@ body {
   mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
 }
 
+/* ---------- Dot portrait: the cursor is a lens onto the photo behind the dots ---------- */
+.dot-peek {
+  opacity: 0;
+  transition: opacity 0.35s;
+  -webkit-mask-image: radial-gradient(circle 58px at var(--mx, 50%) var(--my, 50%), #000 45%, transparent 100%);
+  mask-image: radial-gradient(circle 58px at var(--mx, 50%) var(--my, 50%), #000 45%, transparent 100%);
+}
+[data-peek] > .dot-peek {
+  opacity: 0.92;
+}
+
 /* ---------- Support card: the cup fills while the card is hovered or focused ---------- */
 .cup-fill {
   transform-box: fill-box;

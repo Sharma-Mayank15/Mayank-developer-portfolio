@@ -22,7 +22,7 @@ export default function About() {
             <p className="mt-5 text-pretty leading-relaxed text-fg-muted">
               My edge is the full path from model to product: training and evaluating the model, wrapping it in
               deterministic rules and human review where it matters, and building the interface people actually
-              use. I work AI-native every day — Claude Code, MCP and agent workflows — and I&apos;m certified in it by
+              use. I work AI-native every day with Claude Code, MCP and agent workflows, and I&apos;m certified in it by
               Anthropic Academy, Google and Oracle.
             </p>
           </Spotlight>
@@ -31,7 +31,14 @@ export default function About() {
         {/* Photo + location */}
         <Reveal delay={80} className="md:col-span-2">
           <Tilt className="h-full">
-            <DotPortrait src={personalData.profile} dotSrc="/warrior.svg" dotLabel="the warrior" alt="Portrait of Mayank Sharma">
+            <DotPortrait
+              src={personalData.profile}
+              dotSrc="/warrior.svg"
+              dotLabel="the helmet"
+              revealLabel="Who's behind the helmet?"
+              hint="Every warrior has a face. Click to unmask."
+              alt="Portrait of Mayank Sharma"
+            >
               <div className="flex items-center gap-1.5 text-sm text-fg">
                 <FiMapPin className="text-signal" /> {personalData.location}
               </div>

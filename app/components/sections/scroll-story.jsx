@@ -97,7 +97,7 @@ function StaticStory({ story }) {
                 </div>
                 <div>
                   <p className="font-mono text-[11px] tracking-wider text-fg-dim">
-                    <span className="text-signal">{num(i)}</span> — {step.label}
+                    <span className="text-signal">{num(i)}</span> · {step.label}
                   </p>
                   <h4 className="mt-2 text-xl font-medium tracking-tight text-fg">{step.title}</h4>
                   <p className="mt-2 max-w-md text-pretty text-sm leading-relaxed text-fg-muted">{step.body}</p>
@@ -297,7 +297,7 @@ function PinnedStory({ story }) {
                   {steps.map((step, i) => (
                     <li key={step.label} className={s.step} data-state={i === active ? "on" : i < active ? "past" : "next"}>
                       <p className="font-mono text-[11px] tracking-wider text-fg-dim">
-                        <span className="text-signal">{num(i)}</span> / {num(steps.length - 1)} — {step.label}
+                        <span className="text-signal">{num(i)}</span> / {num(steps.length - 1)} · {step.label}
                       </p>
                       <h4 className="mt-2 text-lg font-medium tracking-tight text-fg md:mt-3 md:text-2xl">{step.title}</h4>
                       <p className="mt-2 max-w-sm text-pretty text-sm leading-relaxed text-fg-muted md:mt-3 md:text-[15px]">{step.body}</p>
@@ -345,7 +345,7 @@ function PinnedStory({ story }) {
                   <span className={s.labelDot} />
                   <span className={s.labelLine} />
                   <span>
-                    <span className={s.labelNum}>{num(i)}</span> — {step.label}
+                    <span className={s.labelNum}>{num(i)}</span> · {step.label}
                   </span>
                 </div>
               </div>

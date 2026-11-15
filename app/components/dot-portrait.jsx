@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { FiEye, FiGrid } from "react-icons/fi";
+import { FiGrid } from "react-icons/fi";
 
 const CELL = 5; // px between dot centres
 const REACH = 70; // px radius in which dots react to the pointer
@@ -16,7 +16,7 @@ const ZOOM = 1.6;
  * A halftone dot field that reacts to the pointer; clicking it (or the button) reveals the real photo.
  * `dotSrc` is the artwork the dots are sampled from. Without it the dots are sampled from the photo itself.
  */
-export default function DotPortrait({ src, dotSrc, alt, dotLabel = "dots", children }) {
+export default function DotPortrait({ src, dotSrc, alt, dotLabel = "dots", revealLabel = "Reveal photo", hint, children }) {
   const wrapRef = useRef(null);
   const canvasRef = useRef(null);
   const [ready, setReady] = useState(false);
@@ -140,10 +140,14 @@ export default function DotPortrait({ src, dotSrc, alt, dotLabel = "dots", child
       pointer.x = e.clientX - r.left;
       pointer.y = e.clientY - r.top;
       pointer.on = true;
+      wrap.style.setProperty("--mx", `${pointer.x}px`);
+      wrap.style.setProperty("--my", `${pointer.y}px`);
+      wrap.dataset.peek = "1";
       start();
     };
     const onLeave = () => {
       pointer.on = false;
+      delete wrap.dataset.peek;
       start(); // one more frame to settle the dots back
     };
 
@@ -192,6 +196,14 @@ export default function DotPortrait({ src, dotSrc, alt, dotLabel = "dots", child
         }`}
         style={{ touchAction: "pan-y" }}
       />
+      {/* Peek lens: under the cursor, a small circle of the real photo shows through — a hint that the helmet hides someone. */}
+      {dotSrc && !revealed && (
+        <div
+          aria-hidden
+          className="dot-peek pointer-events-none absolute inset-0 bg-cover"
+          style={{ backgroundImage: `url("${src}")`, backgroundPosition: "50% 30%" }}
+        />
+      )}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/10 to-transparent" />
 
       {ready && (
@@ -199,14 +211,24 @@ export default function DotPortrait({ src, dotSrc, alt, dotLabel = "dots", child
           type="button"
           onClick={() => setRevealed((v) => !v)}
           aria-pressed={revealed}
-          className="glass-lens absolute right-3 top-3 flex items-center gap-1.5 rounded-full px-3 py-1.5 font-mono text-[11px] text-fg transition-colors hover:text-white"
+          className="glass-lens absolute right-3 top-3 flex items-center gap-2 rounded-full px-3 py-1.5 font-mono text-[11px] text-fg transition-colors hover:text-white"
         >
-          {revealed ? <FiGrid /> : <FiEye />}
-          {revealed ? `Back to ${dotLabel}` : "Reveal photo"}
+          {revealed ? (
+            <FiGrid />
+          ) : (
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
+            </span>
+          )}
+          {revealed ? `Back to ${dotLabel}` : revealLabel}
         </button>
       )}
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5">{children}</div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5">
+        {hint && ready && !revealed && <div className="mb-3 font-mono text-[11px] text-fg-muted">{hint}</div>}
+        {children}
+      </div>
     </div>
   );
 }

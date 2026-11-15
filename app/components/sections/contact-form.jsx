@@ -25,7 +25,7 @@ export default function ContactForm() {
     try {
       setLoading(true);
       await axios.post("/api/contact", form);
-      toast.success("Message sent — thanks! I'll get back to you soon.");
+      toast.success("Message sent, thanks! I'll get back to you soon.");
       setForm({ name: "", email: "", message: "" });
     } catch (err) {
       toast.error(err?.response?.data?.message || "Something went wrong. Try emailing me directly.");

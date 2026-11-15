@@ -4,13 +4,13 @@ export const experiences = [
     company: "Ditstek Innovations",
     companyNote: "Offshore software development firm",
     url: "https://www.ditstek.com",
-    role: "Software Engineer — React JS",
+    role: "Software Engineer, React JS",
     location: "Mohali, India",
     start: "Aug 2025",
     end: "Present",
     current: true,
     highlights: [
-      "Contributed to Guardian Lens, the company's computer-vision workplace-safety platform — training YOLO models and building the edge inference pipeline (see Selected work).",
+      "Contributed to Guardian Lens, the company's computer-vision workplace-safety platform: training YOLO models and building the edge inference pipeline (see Selected work).",
       "Working in a Git pull-request workflow with regular code reviews, debugging in Chrome DevTools and using AI-assisted development (Claude Code) daily.",
     ],
     products: [
@@ -32,7 +32,7 @@ export const experiences = [
         points: [
           "Developed role-based dashboards for Admin, Coach and Client with reusable, typed React components.",
           "Integrated Stripe payments for coaching plans and subscriptions.",
-          "Separated data fetching from UI with RTK Query — caching, cache invalidation and async state over MongoDB-backed APIs.",
+          "Separated data fetching from UI with RTK Query: caching, cache invalidation and async state over MongoDB-backed APIs.",
         ],
         stack: ["React", "TypeScript", "RTK Query", "MongoDB", "Stripe"],
       },
@@ -46,13 +46,13 @@ export const education = [
     title: "B.E. Computer Science",
     institution: "Chandigarh University",
     detail: "CGPA 7.22",
-    duration: "2021 — 2025",
+    duration: "2021 - 2025",
   },
   {
     id: 2,
     title: "Class XII (CBSE)",
     institution: "I.S Dev Samaj School, Chandigarh",
     detail: "",
-    duration: "2020 — 2021",
+    duration: "2020 - 2021",
   },
 ];

@@ -6,6 +6,8 @@ Context for any Claude session working in this repo: who Mayank is, how he wants
 
 - Present Mayank as an **AI-focused software engineer**, not "a frontend developer". Lead with applied AI (computer vision, LLMs/RAG, deep RL, agentic/AI-native workflows). React/TypeScript is how the AI reaches users ("product engineering"), not the headline.
 - Keep facts honest. His official job title is **Software Engineer — React JS** at Ditstek. Don't change the title or invent AI work at Ditstek beyond Guardian Lens.
+- **No em dashes or en dashes in any visitor-facing copy** (the owner reads them as AI-written). Use commas, colons, full stops, "to" for ranges, or a middle dot for labels.
+- The hero stat reads "3+ years building software and AI" (counting from his first projects in 2023). His professional employment is 1+ year (Ditstek, Aug 2025 to present); never state 3+ years of professional or production experience.
 - Tone: confident, specific, metric-driven. Don't write "passionate self-taught developer" filler.
 
 ## Profile (source of truth: latest résumé, Aug 2026)

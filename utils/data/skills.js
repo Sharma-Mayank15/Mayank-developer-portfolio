@@ -44,7 +44,7 @@ export const marquee = [
 export const research = {
   title: "Unlocking the Power of Generative Pre-Training",
   venue: "ICCMST 2024 · Taylor & Francis (CRC Press)",
-  description: "A GPT-3-based conversational AI framework — co-authored chapter published in the conference proceedings.",
+  description: "A GPT-3-based conversational AI framework. Co-authored chapter published in the conference proceedings.",
   url: "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003561651-11/unlocking-power-generative-pre-training-gpt-3-based-conversational-ai-framework-ishdeep-singla-mayank-sharma-shivam-dubey-aditya-ayush-tyagi-rahul-tiwari",
 };
 
@@ -53,5 +53,5 @@ export const certifications = [
   { issuer: "Google", items: "Generative AI, Google Cloud AI, Vertex AI, Large Language Models" },
   { issuer: "Oracle", items: "OCI 2025 Certified AI Foundations Associate" },
   { issuer: "IBM", items: "Python Programming, Python Data Structures, Python Development" },
-  { issuer: "NPTEL · IIT Kharagpur", items: "Gold Medal — Internet of Things" },
+  { issuer: "NPTEL · IIT Kharagpur", items: "Gold Medal, Internet of Things" },
 ];

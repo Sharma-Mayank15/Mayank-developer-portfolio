@@ -21,25 +21,25 @@ const serif = Instrument_Serif({
 });
 
 const description =
-  "Mayank Sharma — AI & Software Engineer. Builds applied-AI systems (computer vision, RAG/LLM apps, deep RL) like Guardian Lens, and ships them in real-time React & TypeScript products at Ditstek Innovations.";
+  "Mayank Sharma, AI & Software Engineer. Builds applied-AI systems (computer vision, RAG/LLM apps, deep RL) like Guardian Lens, and ships them in real-time React & TypeScript products at Ditstek Innovations.";
 
 export const metadata = {
   metadataBase: new URL(personalData.siteUrl),
   title: {
-    default: "Mayank Sharma — AI & Software Engineer",
+    default: "Mayank Sharma | AI & Software Engineer",
     template: "%s · Mayank Sharma",
   },
   description,
   keywords: ["Mayank Sharma", "AI Engineer", "Software Engineer", "LLM", "RAG", "Computer Vision", "React", "TypeScript", "Frontend", "AI", "Portfolio"],
   openGraph: {
-    title: "Mayank Sharma — AI & Software Engineer",
+    title: "Mayank Sharma | AI & Software Engineer",
     description,
     url: personalData.siteUrl,
     siteName: "Mayank Sharma",
     images: [{ url: personalData.profile }],
     type: "website",
   },
-  twitter: { card: "summary", title: "Mayank Sharma — AI & Software Engineer", description },
+  twitter: { card: "summary", title: "Mayank Sharma | AI & Software Engineer", description },
 };
 
 export const viewport = {

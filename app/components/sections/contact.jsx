@@ -35,7 +35,7 @@ export default function Contact() {
           <Reveal delay={80}>
             <p className="max-w-md text-pretty text-lg leading-relaxed text-fg-muted">
               Whether it&apos;s an AI engineering role, a product that needs applied AI shipped end to end, or just a
-              good technical conversation — my inbox is open. I usually reply within a day.
+              good technical conversation, my inbox is open. I usually reply within a day.
             </p>
 
             <CopyEmail className="group mt-8 flex max-w-full items-center gap-3 text-left text-xl text-fg transition-colors [overflow-wrap:anywhere] hover:text-signal md:text-2xl" />

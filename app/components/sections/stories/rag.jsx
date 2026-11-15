@@ -86,11 +86,11 @@ function PageLayer({ uid, hud = true }) {
       {/* 02 + 03 experience */}
       <g style={sans}>
         <text x="26" y="128" fontSize="8.5" fill="#ededef" fontWeight="500">Software Engineer, React JS · Ditstek</text>
-        <text x="294" y="139" fontSize="7" fill="#62656e" textAnchor="end" style={mono}>2025 – now</text>
+        <text x="294" y="139" fontSize="7" fill="#62656e" textAnchor="end" style={mono}>2025 to now</text>
         <text x="26" y="174" fontSize="8.5" fill="#ededef" fontWeight="500">Guardian Lens · AI safety platform</text>
         <text x="26" y="234" fontSize="8.5" fill="#ededef" fontWeight="500">IntelliTraffic · deep RL signal control</text>
         <text x="26" y="338" fontSize="8" fill="#9a9ca5">B.E. Computer Science, Chandigarh University</text>
-        <text x="294" y="338" fontSize="7" fill="#62656e" textAnchor="end" style={mono}>2021 – 25</text>
+        <text x="294" y="338" fontSize="7" fill="#62656e" textAnchor="end" style={mono}>2021 to 25</text>
       </g>
       <Evidence id="02" />
       <Bar y={145} w={236} />

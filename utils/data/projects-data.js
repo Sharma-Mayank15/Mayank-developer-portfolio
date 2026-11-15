@@ -6,7 +6,7 @@ export const featuredProjects = [
     name: "Guardian Lens",
     subtitle: "AI-powered workplace safety platform",
     description:
-      "An organization-level platform that watches CCTV / IP camera streams and flags workplace-safety violations in real time — running locally trained vision models at the edge, so footage never has to leave the site.",
+      "An organization-level platform that watches CCTV / IP camera streams and flags workplace-safety violations in real time, running locally trained vision models at the edge, so footage never has to leave the site.",
     points: [
       "Trained and enhanced local YOLO vision models for domain-specific safety detection (PPE, restricted zones).",
       "Built the edge AI pipeline with OpenCV and ONNX Runtime, feeding detections into deterministic safety rules.",
@@ -26,7 +26,7 @@ export const featuredProjects = [
     name: "SmartResume",
     subtitle: "RAG-based LLM resume screening & evaluation",
     description:
-      "A retrieval-augmented screening system that reads resumes the way a recruiter would — retrieving the relevant evidence for each requirement and asking an LLM to score the match with reasons, not just keywords.",
+      "A retrieval-augmented screening system that reads resumes the way a recruiter would: retrieving the relevant evidence for each requirement and asking an LLM to score the match with reasons, not just keywords.",
     points: [
       "RAG pipeline with FastAPI, LangChain and OpenAI APIs for contextual candidate evaluation and role matching.",
       "Designed prompt workflows and LLM evaluation pipelines reaching 90%+ screening accuracy.",
@@ -44,7 +44,7 @@ export const featuredProjects = [
     name: "IntelliTraffic",
     subtitle: "Adaptive traffic signal control with deep RL",
     description:
-      "A Deep Q-Network agent that learns when to switch traffic lights by watching queue lengths in a SUMO simulation — then outperforms fixed-time signals across multiple traffic scenarios.",
+      "A Deep Q-Network agent that learns when to switch traffic lights by watching queue lengths in a SUMO simulation, then outperforms fixed-time signals across multiple traffic scenarios.",
     points: [
       "DQN controller driving SUMO through TraCI, cutting simulated vehicle wait time by 35%.",
       "Custom reward and state design improved model convergence by 28%.",

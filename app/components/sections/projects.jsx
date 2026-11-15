@@ -27,7 +27,7 @@ function ProjectDetails({ project }) {
                 <FiGithub /> Source <FiArrowUpRight />
               </a>
             ) : project.privateRepo ? (
-              <span className="chip gap-1.5 py-1.5" title="Proprietary company code — available to discuss in interviews">
+              <span className="chip gap-1.5 py-1.5" title="Proprietary company code, available to discuss in interviews">
                 <FiLock /> Private company repo
               </span>
             ) : null}
@@ -68,7 +68,7 @@ export default function Projects() {
       {/* The negative margins below only eat into the empty top/bottom of a story's 100svh stage. */}
       <div className="container-page md:mb-[max(-8svh,-4rem)]">
         <SectionHeading index="02" label="Selected AI work" title={<>Applied AI, built to run in the <span className="font-serif italic text-fg-muted">real world</span>.</>}>
-          Computer vision at the edge, retrieval-augmented LLMs and reinforcement learning — each one taken from idea to
+          Computer vision at the edge, retrieval-augmented LLMs and reinforcement learning. Each one taken from idea to
           a working system.
         </SectionHeading>
       </div>
